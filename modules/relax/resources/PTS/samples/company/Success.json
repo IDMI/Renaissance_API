@@ -1,0 +1,18 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": {
+        "phone": "478-953-9922",
+        "address2": "Suite 100",
+        "state": "GA",
+        "zip": "31088",
+        "address1": "201 Byrd Court",
+        "companyName": "IDMI Systems",
+        "carrierName": "IDMI Systems",
+        "phone2": "",
+        "tollFree": "",
+        "city": "Warner Robins",
+        "fax": "",
+        "companyID": "10"
+    }
+}

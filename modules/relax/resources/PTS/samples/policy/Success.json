@@ -1,0 +1,38 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": {
+        "expirationDate": "January, 05 2013 00:00:00",
+        "effectiveDate": "January, 05 2012 00:00:00",
+        "ratingGroupID": "11",
+        "underwritingCollection": "",
+        "premiumTotal": "792.0",
+        "ratingVersion": "0.0",
+        "isDirect": "1",
+        "status": "1",
+        "surchargeCollection": [],
+        "installmentCount": "0",
+        "paymentPlanName": "",
+        "renewalCount": "0",
+        "forceLogEntry": "0",
+        "cancelledDate": "",
+        "isRenewal": "0",
+        "policyNum": "S41-001204-00",
+        "depositPercent": "100.0",
+        "policyCharge": "15.0",
+        "companyName": "",
+        "policyTypeDesc": "",
+        "discountCollection": [
+            "Pay In Full",
+            "Homeowner"
+        ],
+        "endorsementDate": "",
+        "endorsementDescription": "",
+        "needsRated": "0",
+        "policyTerm": "12",
+        "policyType": "1",
+        "policyID": "18241",
+        "termPremiumsDue": "792.0",
+        "ratingVersionID": "12"
+    }
+}

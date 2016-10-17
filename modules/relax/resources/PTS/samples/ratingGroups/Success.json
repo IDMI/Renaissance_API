@@ -1,0 +1,17 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": [
+        {
+            "addDate": "",
+            "stateID": "73",
+            "ratingGroupID": "11",
+            "description": "Tennessee 6 & 12 Month",
+            "policyTerm": "6,12",
+            "policyType": "1",
+            "ratingProgram": "1",
+            "notes": "",
+            "companyID": "10"
+        }
+    ]
+}

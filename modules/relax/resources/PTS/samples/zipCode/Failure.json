@@ -1,0 +1,5 @@
+{
+    "message": "Error",
+    "error": true,
+    "data": "*** This will be populated with error detail ***"
+}

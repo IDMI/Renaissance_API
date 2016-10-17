@@ -1,0 +1,34 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": [
+        {
+            "autoViolationID": "33",
+            "agingType": "2",
+            "violation": "All other traffic violations (excluding parking tickets)",
+            "autoViolationTypeID": "14",
+            "autoViolationChargeID": "33"
+        },
+        {
+            "autoViolationID": "21",
+            "agingType": "1",
+            "violation": "Allowing an intoxicated person to drive vehicle",
+            "autoViolationTypeID": "12",
+            "autoViolationChargeID": "21"
+        },
+        {
+            "autoViolationID": "10",
+            "agingType": "1",
+            "violation": "At-Fault Accident",
+            "autoViolationTypeID": "10",
+            "autoViolationChargeID": "10"
+        },
+        {
+            "autoViolationID": "48",
+            "agingType": "2",
+            "violation": "Commercial Violation",
+            "autoViolationTypeID": "14",
+            "autoViolationChargeID": "91"
+        }
+    }
+}  

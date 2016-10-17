@@ -1,0 +1,36 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": [
+        {
+            "ratingGroupID": "10",
+            "addDate": "December, 07 2010 15:11:00",
+            "shortID": "impaired",
+            "deny": "0",
+            "question": "Is any driver physically impaired?",
+            "sortOrder": "1",
+            "doNotBindAnswer": "",
+            "policyType": "1",
+            "ratingVersionID": "10",
+            "comment": "Y",
+            "appQuestionID": "10",
+            "active": "1",
+            "type": "Q"
+        },
+        {
+            "ratingGroupID": "10",
+            "addDate": "December, 07 2010 15:11:00",
+            "shortID": "newlic",
+            "deny": "0",
+            "question": "Is there any driver newly licensed less than one year?",
+            "sortOrder": "2",
+            "doNotBindAnswer": "",
+            "policyType": "1",
+            "ratingVersionID": "10",
+            "comment": "Y",
+            "appQuestionID": "11",
+            "active": "1",
+            "type": "Q"
+        }
+	}       
+}

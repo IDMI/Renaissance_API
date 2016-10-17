@@ -1,0 +1,77 @@
+{
+	"action":{
+		"quote":"quote",
+		"policy":"policy",
+		"submission":"submission",
+		"bind":"bind",
+		"payment":"payment"
+	},
+	"payment":{
+		"method":{
+			"bankDraft":10,
+			"creditCard":9
+		}
+	},
+	"policy":{
+		"status":{
+			"pending":0,
+			"notwritten":6,
+			"quote":99,
+			"submission":98,
+			"active":1,
+			"bound":2,
+			"cancelled":3
+		},
+		"cancel":{
+			"reason":{
+				"nonpay":2
+			}
+		}
+	},
+	"policyType":{
+		"unknown":0,
+		"pAuto":1,
+		"homeowner":4
+	},
+	"vehicle":{
+		"bodyTypes":[
+			["CABRI 2D","2-DR COUPE"],["CABRIOLE","2-DR COUPE"],["COUPE 2D","2-DR COUPE"],["COUPE 3D","2-DR COUPE"],["CPE  2+2","2-DR COUPE"],["CPE2D4X2","2-DR COUPE"],["CPE2D4X4","2-DR COUPE"],["CPE3D4X2","2-DR COUPE"],
+			["CPE3D4X4","2-DR COUPE"],["CRUISER ","2-DR COUPE"],["FASTBACK","2-DR COUPE"],["SP COUPE","2-DR COUPE"],["HCH  4X2","2-DR HATCH"],["HCH  4X4","2-DR HATCH"],["HCH2D4X2","2-DR HATCH"],["HCH2D4X4","2-DR HATCH"],
+			["HCH3D4X2","2-DR HATCH"],["HCH3D4X4","2-DR HATCH"],["HCH5D4X2","2-DR HATCH"],["HCH5D4X4","2-DR HATCH"],["HCHBK   ","2-DR HATCH"],["HCHBK 2D","2-DR HATCH"],["HCHBK 3D","2-DR HATCH"],["HCHBK 4D","2-DR HATCH"],
+			["HCHBK 5D","2-DR HATCH"],["HCHBK CP","2-DR HATCH"],["HCHBK2+2","2-DR HATCH"],["LFTBK 2D","2-DR HATCH"],["LFTBK 3D","2-DR HATCH"],["LFTBK 4D","2-DR HATCH"],["LFTBK 5D","2-DR HATCH"],["SP HCHBK","2-DR HATCH"],
+			["MPV  SED","4-DR SEDAN"],["SED2D4X2","4-DR SEDAN"],["SED2D4X4","4-DR SEDAN"],["SED4D4X2","4-DR SEDAN"],["SED4D4X4","4-DR SEDAN"],["SEDAN 2D","4-DR SEDAN"],["SEDAN 4D","4-DR SEDAN"],	["SEDAN 5D","4-DR SEDAN"],
+			["SP SEDAN","4-DR SEDAN"],["CONV  2D","CONVERT"],["CONVRTBL","CONVERT"],["TARGA   ","CONVERT"],["MPV     ","MINI-VAN"],["MPV  4X2","MINI-VAN"],["MPV  4X4","MINI-VAN"],["PKP  4X2","PICKUP LTE1"],["PKP  4X4","PICKUP LTE1"],
+			["PKP4X22D","PICKUP LTE1"],["PKP4X23D","PICKUP LTE1"],["PKP4X24D","PICKUP LTE1"],["PKP4X42D","PICKUP LTE1"],["PKP4X43D","PICKUP LTE1"],["PKP4X44D","PICKUP LTE1"],["TRK  4X2","PICKUP LTE1"],["TRK  4X4","PICKUP LTE1"],
+			["MPV  WAG","STA WAGON"],["WAG   4D","STA WAGON"],["WAG  4X2","STA WAGON"],["WAG  4X4","STA WAGON"],["WAG3D4X2","STA WAGON"],["WAG4D4X2","STA WAGON"],["WAG4D4X4","STA WAGON"],["WAG4X23D","STA WAGON"],["WAG4X24D","STA WAGON"],
+			["WAG4X43D","STA WAGON"],["WAG4X44D","STA WAGON"],["WAG5D4X2","STA WAGON"],["WAG5D4X4","STA WAGON"],["WAGON   ","STA WAGON"],["WAGON 2D","STA WAGON"],["WAGON 4D","STA WAGON"],["WAGON 5D","STA WAGON"],["UTIL  4D","SUV"],
+			["UTIL 4X2","SUV"],["UTIL 4X4","SUV"],["UTILITY ","SUV"],["UTL   4D","SUV"],["UTL4X22D","SUV"],["UTL4X24D","SUV"],["UTL4X42D","SUV"],["UTL4X44D","SUV"],["KOMBI   ","VAN"],["VAN     ","VAN"],["VAN  4X2","VAN"],
+			["VAN  4X4","VAN"],["VAN3D4X2","VAN"],["VAN4D4X2","VAN"],["VAN4X22D","VAN"],["VAN4X24D","VAN"],["VAN4X42D","VAN"],["VAN4X44D","VAN"]
+		]
+	},
+	"driver":{
+		"maritalStatus":{
+			"single":10,
+			"married":0
+		}
+	},
+	"insured":{
+		"creditScore":{
+			"none":0,
+			"excellent":886,
+			"good":712,
+			"fair":637,
+			"poor":537
+		}
+	},
+	"error":{
+		"type":{
+			"line":"line",
+			"policy":"policy",
+			"insured":"insured",
+			"vehicle":"vehicle",
+			"driver":"driver",
+			"payment":"payment",
+			"paymentInfo":"paymentInfo"
+		}
+	}
+}

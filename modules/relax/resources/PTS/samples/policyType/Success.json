@@ -1,0 +1,11 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": {
+        "structName": "pAuto",
+        "policyTypeID": "10",
+        "description": "Personal Auto",
+        "policyType": "1",
+        "folderName": "Auto"
+    }
+}

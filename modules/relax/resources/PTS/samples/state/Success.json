@@ -1,0 +1,10 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": {
+        "stateID": "34",
+        "stateLong": "Arizona",
+        "stateShort": "AZ",
+        "active": "0"
+    }
+}

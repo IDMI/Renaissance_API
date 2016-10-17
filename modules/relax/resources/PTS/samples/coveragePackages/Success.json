@@ -1,0 +1,45 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": [
+        {
+            "stateID": "73",
+            "coveragePackageID": "10",
+            "name": "Basic",
+            "startDate": "January, 01 2010 00:00:00",
+            "description": "State Required Minimum Coverage",
+            "sortOrder": "1",
+            "policyType": "1",
+            "IDMIname": "Basic",
+            "active": "1",
+            "companyID": "10",
+            "endDate": ""
+        },
+        {
+            "stateID": "73",
+            "coveragePackageID": "11",
+            "name": "Enhanced",
+            "startDate": "January, 01 2010 00:00:00",
+            "description": "More than the basic package, this plan offers you more coverage.",
+            "sortOrder": "2",
+            "policyType": "1",
+            "IDMIname": "Enhanced",
+            "active": "1",
+            "companyID": "10",
+            "endDate": ""
+        },
+        {
+            "stateID": "73",
+            "coveragePackageID": "12",
+            "name": "Premium",
+            "startDate": "January, 01 2010 00:00:00",
+            "description": "Our premium package offers you maxmium protection.",
+            "sortOrder": "3",
+            "policyType": "1",
+            "IDMIname": "Premium",
+            "active": "1",
+            "companyID": "10",
+            "endDate": ""
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": [
+        {
+            "stopRenewalDate": "",
+            "description": "Initial Tennessee Rating",
+            "renewalBusinessDate": "October, 01 2010 00:00:00",
+            "newBusinessDate": "October, 01 2010 00:00:00",
+            "ratingVersionID": "12",
+            "stopNewDate": "",
+            "notes": ""
+        }
+    ]
+}

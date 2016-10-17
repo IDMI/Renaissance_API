@@ -1,0 +1,21 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": [
+        {
+            "addDate": "July, 01 2006 00:00:00",
+            "stateID": "41",
+            "cityAbbreviated": "",
+            "zipCodeID": "27795",
+            "FAC": "P",
+            "LL": "L",
+            "zipCode": "31088",
+            "version": "2",
+            "stateLong": "Georgia",
+            "stateShort": "GA",
+            "city": "WARNER ROBINS",
+            "areaCode": "478",
+            "countyFIPS": "13153"
+        }
+    ]
+}

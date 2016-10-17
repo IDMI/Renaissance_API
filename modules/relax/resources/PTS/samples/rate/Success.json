@@ -1,0 +1,11 @@
+{
+    "message": "Success",
+    "error": false,
+    "data": {
+        "newPremiumTotal": "423.0",
+        "newTermPremiumsDue": "417.81",
+        "oldPremiumTotal": "423.0",
+        "policyID": "18131",
+        "oldTermPremiumsDue": "417.81"
+    }
+}
