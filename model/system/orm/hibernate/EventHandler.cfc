@@ -24,7 +24,7 @@ component
 	/**
 	@output false
 	**/
-	public void function preUpdate(entity) {
+	public void function preUpdate(entity, struct oldData=structNew()) {
 		try { entity.setModifiedDate(now()); } catch (any e) { }
 	}
 }
