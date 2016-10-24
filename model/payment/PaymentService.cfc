@@ -12,9 +12,9 @@ component
 {
 	property name="dateUtils" inject="model";
 	property name="depositProofService" inject="model";
-	property name="IVRPaymentService" inject="model";
-	property name="IVRResponseService" inject="model";
-	property name="IVRService" inject="model";
+	//property name="IVRPaymentService" inject="model";
+	//property name="IVRResponseService" inject="model";
+	//property name="IVRService" inject="model";
 	property name="noteService" inject="model";
 	property name="paymentInfoService" inject="model";
 	property name="policyService" inject="model";
@@ -101,6 +101,7 @@ component
 		}
 
 		// reverse IVRPayment
+		/*
 		if (payment.getMethod() == application.constants.payment.method.creditCard && arrayLen(arguments.payment.getIVRPayment())) {
 			var IVRPayment = arguments.payment.getIVRPayment()[1];
 			var IVRResponse = javacast("null", "");
@@ -130,7 +131,7 @@ component
 		  	refundIVRPayment.setIsPosted(1);
 		  	save(refundIVRPayment);
 		 }
-
+			*/
 		 return newPayment;
 	}
 
@@ -174,6 +175,7 @@ component
 
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
+				/*
 				// validate and store card
 				var storeCardResponse = xmlParse(getIVRService().storeCard(arguments.policy, arguments.paymentInfo));
 
@@ -210,6 +212,7 @@ component
 				save(IVRPayment);
 
 				arguments.policy.addIVRPayment(IVRPayment);
+				*/
 			} else {
 				arguments.policy.addPayment(arguments.payment);
 			}

@@ -43,7 +43,7 @@ component
 	property name="user" fieldtype="many-to-one" fkcolumn="usersID" cfc="model.user.User" lazy="true" inverse="true";
 	property name="voidPayment" fieldtype="many-to-one" fkcolumn="voidPaymentID" joincolumn="paymentID" cfc="model.payment.Payment" lazy="true" inverse="true" missingrowignored="true";
 	property name="trans" fieldtype="one-to-many" fkcolumn="paymentID" cfc="model.trans.Trans" singularname="tran" lazy="extra";
-	property name="IVRPayment" fieldtype="one-to-many" fkcolumn="paymentID" cfc="model.IVRPayment.IVRPayment";
+	//property name="IVRPayment" fieldtype="one-to-many" fkcolumn="paymentID" cfc="model.IVRPayment.IVRPayment";
 
 	this.constraints = {
 		"paymentDate" = {"required" = true, type="date"},
