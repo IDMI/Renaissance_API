@@ -26,10 +26,10 @@ component displayName="SQLHelper" accessors="true" {
     /**
     * Constructor
     */
-    SQLHelper function init( 
-        required any criteriaBuilder, 
-        boolean returnExecutableSql = false, 
-        boolean formatSql = false  
+    SQLHelper function init(
+        required any criteriaBuilder,
+        boolean returnExecutableSql = false,
+        boolean formatSql = false
     ){
 
         // Setup properties
@@ -39,7 +39,13 @@ component displayName="SQLHelper" accessors="true" {
         variables.ormSession    = criteriaImpl.getSession();
         variables.factory       = ormSession.getFactory();
         // get formatter for sql string beautification
-        variables.formatter     = createObject( "java", "org.hibernate.jdbc.util.BasicFormatterImpl" );
+        if( findNoCase( "coldfusion", server.coldfusion.productName ) AND
+            listFirst( server.coldfusion.productVersion ) gte 11
+        ){
+            variables.formatter  = createObject( "java", "org.hibernate.engine.jdbc.internal.BasicFormatterImpl" );
+        } else {
+            variables.formatter  = createObject( "java", "org.hibernate.jdbc.util.BasicFormatterImpl" );
+        }
         // set properties
         variables.log           = [];
         variables.formatSQL     = arguments.formatSQL;
@@ -69,9 +75,9 @@ component displayName="SQLHelper" accessors="true" {
      * @formatSql {Boolean} Whether to format the sql
      * return string
      */
-    string function getSQL( 
-        required boolean returnExecutableSql=getReturnExecutableSql(), 
-        required boolean formatSql=getFormatSql() 
+    string function getSQL(
+        required boolean returnExecutableSql=getReturnExecutableSql(),
+        required boolean formatSql=getFormatSql()
     ){
 
         var sql = getCriteriaJoinWalker().getSQLstring();
@@ -79,11 +85,11 @@ component displayName="SQLHelper" accessors="true" {
         var useLimit = useLimit( selection );
         var hasFirstRow = getFirstRow( selection ) > 0;
         var useOffset = hasFirstRow && useLimit && getDialect().supportsLimitOffset();
-       
+
         // try to add limit/offset in
         if( useLimit ) {
-            sql = getDialect().getLimitstring( 
-                sql, 
+            sql = getDialect().getLimitstring(
+                sql,
                 useOffset ? getFirstRow(selection) : 0,
                 getMaxOrLimit( selection )
             );
@@ -93,12 +99,12 @@ component displayName="SQLHelper" accessors="true" {
         if( arguments.returnExecutableSql ) {
             sql = replaceQueryParameters( sql, arguments.formatSql );
         }
-        
+
         // if we want to beautify the sql string
         if( arguments.formatSql ) {
             sql = applyFormatting( sql );
         }
-        
+
         return sql;
     }
 
@@ -111,7 +117,7 @@ component displayName="SQLHelper" accessors="true" {
         return "<pre>" & formatter.format( arguments.sql ) & "</pre>";
     }
 
-    /** 
+    /**
      * Gets the positional SQL parameter values from the criteria query
      * return array
      */
@@ -245,19 +251,19 @@ component displayName="SQLHelper" accessors="true" {
         var hasFirstRow = dialect.supportsLimitOffset() && ( firstRow > 0 || dialect.forceLimitUsage() );
         var useOffset = hasFirstRow && useLimit && dialect.supportsLimitOffset();
         var reverse = dialect.bindLimitParametersInReverseOrder();
-        /** 
-            APPROACH: 
+        /**
+            APPROACH:
             Unfortunately, there does not seem to be any really good way to retrieve the SQL that will be executed,
             since it isn't actually sent to the db engine as executable SQL
             So, we have to rely upon the QueryTranslator to provide us details about positional paramters that are going to be sent
             However, the "limit/offset" data isn't handled by the Translator, so we also need to spin up a regular SQL Query to determine
-            how many total ordinal parameters are getting sent with the query string. 
+            how many total ordinal parameters are getting sent with the query string.
 
             This, combined with info that Hibernate knows about each db dialect, we can smartly fill in the gaps for the "limit/offset"
-            information, as well as fill in the ordinal parameters values and return a SQL string that is as close to the actual string 
+            information, as well as fill in the ordinal parameters values and return a SQL string that is as close to the actual string
             that will be executed on the db as possible.
 
-            So the actual idea is to take the ordinal parameter values and types which QueryTranslator knows about, and intelligently add to 
+            So the actual idea is to take the ordinal parameter values and types which QueryTranslator knows about, and intelligently add to
             those lists based on the dialect of the database engine.
          */
         // if we have positional parameters
@@ -405,7 +411,7 @@ component displayName="SQLHelper" accessors="true" {
         // not nearly as cool as the walking dead kind, but is still handy for turning a criteria into a sql string ;)
         return createObject( "java", "org.hibernate.loader.criteria.CriteriaJoinWalker" ).init(
             factory.getEntityPersister( entityName ), // persister (loadable)
-            getCriteriaQueryTranslator(), // translator 
+            getCriteriaQueryTranslator(), // translator
             factory, // factory
             criteriaImpl, // criteria
             entityName, // rootEntityName
@@ -422,6 +428,6 @@ component displayName="SQLHelper" accessors="true" {
             criteriaImpl, // criteria
             entityName,  // rootEntityName
             criteriaImpl.getAlias() // rootSQLAlias
-        );  
-    } 
+        );
+    }
 }

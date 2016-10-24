@@ -33,7 +33,7 @@ Description :
 	       	flushAtRequestEnd = false,
 	       	autoManageSession = false,
 			eventHandling = true,
-			eventHandler = "model.system.EventHandler",
+			eventHandler = "model.system.orm.hibernate.EventHandler",
 			skipCFCWithError = false
        	};
    	</cfscript>
