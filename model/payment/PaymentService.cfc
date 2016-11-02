@@ -111,7 +111,7 @@ component
 			if (arrayLen(ECSTransactions)) {
 				var httpService = new http();
 				httpService.setMethod("post");
-				httpService.setUrl("#appUrl#/index.cfm/api/ecs/payments/refund.json");
+				httpService.setUrl("#getAppURL()#/index.cfm/api/ecs/payments/refund.json");
 				httpService.addParam(type="formfield", name="amount", value=ECSTransactions[1].getAmount());
 				httpService.addParam(type="formfield", name="transactionID", value=ECSTransactions[1].getTransactionID());
 				httpService.addParam(type="formfield", name="policyID", value=arguments.payment.getPolicy().getPolicyID());
@@ -189,7 +189,7 @@ component
 				var ccExp = toString(DatePart("m",arguments.paymentInfo.getCCexpDate())) & toString(Right(DatePart('yyyy', arguments.paymentInfo.getCCexpDate()), 2));
 				var httpService = new http();
 				httpService.setMethod("get");
-				httpService.setUrl("#appUrl#/index.cfm/api/ecs/payments/validate.json");
+				httpService.setUrl("#getAppURL()#/index.cfm/api/ecs/payments/validate.json");
 				httpService.addParam(type="url", name="payment", value="creditcard");
 				httpService.addParam(type="url", name="payment_name", value=arguments.paymentInfo.getPaymentName());
 				httpService.addParam(type="url", name="address1", value=arguments.paymentInfo.getAddress1());
@@ -233,7 +233,7 @@ component
 
 					var httpService = new http();
 					httpService.setMethod("post");
-					httpService.setUrl("#appUrl#/index.cfm/api/ecs/payments/sale.json");
+					httpService.setUrl("#getAppURL()#/index.cfm/api/ecs/payments/sale.json");
 					httpService.addParam(type="formfield", name="amount", value=arguments.payment.getAmount());
 					httpService.addParam(type="formfield", name="policyID", value=arguments.policy.getPolicyID());
 					httpService.addParam(type="formfield", name="insuredID", value=arguments.policy.getInsuredID());
