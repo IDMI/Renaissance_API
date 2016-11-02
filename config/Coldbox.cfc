@@ -274,29 +274,29 @@ Optional Methods
 		debugger.expandedRCPanel = false;
 		debugger.expandedModulesPanel = false;
 
-		settings.appUrl = "windhaven.local";
+		settings.appUrl = "http://windhaven.local";
 		settings.requiresSSL = false;
 		settings.rootDrive = "C:";
 		settings.attachmentDir = "C:\pts\attachment\";
 	}
 
 	function development() {
-		settings.appUrl = "windhaven.dev.ptsapp.com";
+		settings.appUrl = "http://windhaven.dev.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function qa() {
-		settings.appUrl = "windhaven.qa.ptsapp.com";
+		settings.appUrl = "http://windhaven.qa.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function cycle() {
-		settings.appUrl = "windhaven.cycle.ptsapp.com";
+		settings.appUrl = "http://windhaven.cycle.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function staging() {
-		settings.appUrl = "windhaven.staging.ptsapp.com";
+		settings.appUrl = "http://windhaven.staging.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 </cfscript>
