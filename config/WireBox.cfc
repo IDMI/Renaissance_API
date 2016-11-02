@@ -153,6 +153,8 @@ Description :
 
 		map("transactionStoreCard")
 			.toWebservice(getColdBox().getSetting("appUrl") & "/exportProcess/IVR/Primoris/components/transactionStoreCard.cfc?wsdl");
+
+		map("ECSTransactionService").toDSL("entityService:ECSTransaction");
 	}
 </cfscript>
 </cfcomponent>

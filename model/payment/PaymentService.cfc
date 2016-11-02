@@ -22,6 +22,8 @@ component
 	property name="systemUser" inject;
 	property name="transService" inject="model";
 	property name="utils" inject="model";
+	property name="ECSTransactionService" inject;
+	property name="appUrl" inject="coldbox:setting:appUrl";
 
 	/**
     @author Peruz Carlsen
@@ -101,37 +103,44 @@ component
 		}
 
 		// reverse IVRPayment
-		/*
-		if (payment.getMethod() == application.constants.payment.method.creditCard && arrayLen(arguments.payment.getIVRPayment())) {
-			var IVRPayment = arguments.payment.getIVRPayment()[1];
-			var IVRResponse = javacast("null", "");
 
-			var IVRResponse = getIVRResponseService().findWhere({
-				policy = arguments.payment.getPolicy(),
-				callID = IVRPayment.getCallID()
-			});
+		if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
 
-			if (isNull(IVRResponse)) {
-				continue;
+			var ECSTransactions = ECSTransactionService.list(criteria={policyID = arguments.payment.getPolicy().getPolicyID(), paymentID = arguments.payment.getPaymentID()}, asQuery=false);
+
+			if (arrayLen(ECSTransactions)) {
+				var httpService = new http();
+				httpService.setMethod("post");
+				httpService.setUrl("#appUrl#/index.cfm/api/ecs/payments/refund.json");
+				httpService.addParam(type="formfield", name="amount", value=ECSTransactions[1].getAmount());
+				httpService.addParam(type="formfield", name="transactionID", value=ECSTransactions[1].getTransactionID());
+				httpService.addParam(type="formfield", name="policyID", value=arguments.payment.getPolicy().getPolicyID());
+
+				var prefix = httpService.send().getPrefix();
+				var refundResponse = deserializeJSON(prefix.fileContent);
+
+				try {
+					if (refundResponse.message.response != 1) {
+						throw(
+							"Unable to refund credit card payment." & getUtils().newLine() &
+							"Error Code: " & refundResponse.message.responseText.response_code & getUtils().newLine() &
+							"Server Reponse: " & refundResponse.message.responseText
+						);
+					}
+
+					var ECSTransaction = ECSTransactionService.get(refundResponse.message.ECSTransactionID);
+					ECSTransaction.setPaymentID(arguments.payment.getPaymentID());
+					ECSTransaction.setUserID(5);
+					save(entity=ECSTransaction, flush=true);
+					refresh(ECSTransaction);
+				} catch (any e) {
+					throw("#serializeJSON(refundResponse)#");
+				}
+
 			}
 
-			var refundResponse = xmlParse(getIVRService().refund(arguments.payment.getPolicy(), arguments.payment, IVRPayment, IVRResponse));
-
-			if (!refundResponse.xmlRoot.refundSuccessful.xmlText) {
-				throw(
-					"Unable to refund credit card payment." & getUtils().newLine() &
-					"Error Code: " & refundResponse.xmlRoot.errorCode.xmlText & getUtils().newLine() &
-					"Server Reponse: " & refundResponse.xmlRoot.responseText.xmlText
-				);
-			}
-
-		  	// update refund IVRPayment
-			var refundIVRPayment = getIVRPaymentService().get(refundResponse.xmlRoot.refundIVR_PaymentID.xmlText);
-		  	refundIVRPayment.setPayment(newPayment);
-		  	refundIVRPayment.setIsPosted(1);
-		  	save(refundIVRPayment);
 		 }
-			*/
+
 		 return newPayment;
 	}
 
@@ -144,13 +153,13 @@ component
 	public model.payment.Payment function sale(
 		required model.policy.Policy policy,
 		required model.payment.Payment payment,
-		model.paymentInfo.PaymentInfo paymentInfo)
+		model.paymentInfo.PaymentInfo paymentInfo,
+		model.payment.ECSTransaction ECSTransaction)
 	{
 		try {
 			if (!isNull(arguments.payment.getPaymentID())) {
 				return arguments.payment;
 			}
-			var IVRPayment = javacast("null", "");
 
 			// load systemInfo
 			var systemInfo = getSystemInfoService().findWhere({});
@@ -173,52 +182,103 @@ component
 				arguments.paymentInfo.setUser(arguments.payment.getUser());
 			}
 
+
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
-				/*
-				// validate and store card
-				var storeCardResponse = xmlParse(getIVRService().storeCard(arguments.policy, arguments.paymentInfo));
+
+				var ccExp = toString(DatePart("m",arguments.paymentInfo.getCCexpDate())) & toString(Right(DatePart('yyyy', arguments.paymentInfo.getCCexpDate()), 2));
+				var httpService = new http();
+				httpService.setMethod("get");
+				httpService.setUrl("#appUrl#/index.cfm/api/ecs/payments/validate.json");
+				httpService.addParam(type="url", name="payment", value="creditcard");
+				httpService.addParam(type="url", name="payment_name", value=arguments.paymentInfo.getPaymentName());
+				httpService.addParam(type="url", name="address1", value=arguments.paymentInfo.getAddress1());
+				httpService.addParam(type="url", name="city", value=arguments.paymentInfo.getCity());
+				httpService.addParam(type="url", name="zip", value=arguments.paymentInfo.getZip());
+				httpService.addParam(type="url", name="country", value=arguments.paymentInfo.getCCCountry());
+				httpService.addParam(type="url", name="ccNumber", value=arguments.paymentInfo.getCCNumber());
+				httpService.addParam(type="url", name="ccExp", value=ccEXP);
+				httpService.addParam(type="url", name="cvv", value=arguments.paymentInfo.getCCSecurity1());
+				httpService.addParam(type="url", name="policyID", value=arguments.policy.getPolicyID());
+				httpService.addParam(type="url", name="usersID", value=5);
+
+				var prefix = httpService.send().getPrefix();
+				var validateResponse = deserializeJSON(prefix.fileContent);
 
 				// error check
-				if (!storeCardResponse.xmlRoot.storeCardSuccessful.xmlText) {
+				if (validateResponse.message.response != 1) {
 					throw(
 						"Unable to post credit card payment." & getUtils().newLine() &
-						"Error Code: " & storeCardResponse.xmlRoot.errorCode.xmlText & getUtils().newLine() &
-						"Server Reponse: " & storeCardResponse.xmlRoot.responseText.xmlText
+						"Error Code: " & validateResponse.message.responseText.response_code & getUtils().newLine() &
+						"Server Reponse: " & validateResponse.message.responseText
 					);
-				}
+				} else {
 
-				// reload paymentInfo entity
-				arguments.paymentInfo = getPaymentInfoService().get(storeCardResponse.xmlRoot.paymentInfoID.xmlText);
+				//try{
+				arguments.ECSTransaction = ECSTransactionService.get(validateResponse.message.ECSTransactionID);
+				arguments.ECSTransaction.setUserID(5);
+				save(entity=arguments.ECSTransaction, flush=true);
+				refresh(arguments.ECSTransaction);
+				//} catch (any e) {
+					//throw(
+						//"validateResponse=#serializeJSON(validateResponse)#"
+					//);
+					//abort;
+				//}
 
-				// send sale request
-				var saleResponse = xmlParse(getIVRService().sale(arguments.policy, arguments.payment, arguments.paymentInfo));
+				//throw(
+					//"amount=#arguments.payment.getAmount()#,policyID=#arguments.payment.getPolicyID()#,insuredID=#arguments.payment.getInsuredID()#,paymentInfoType=#arguments.payment.getPaymentInfoType()#,payment_name=#arguments.payment.getPaymentName()#,address1=#arguments.payment.getAddress1()#,city=#arguments.payment.getCity()#"
+				//);
+				//abort;
 
-				// error check
-				if (!saleResponse.xmlRoot.saleSuccessful.xmlText) {
-					throw(
-						"Unable to post credit card payment." & getUtils().newLine() &
-						"Error Code: " & saleResponse.xmlRoot.errorCode.xmlText & getUtils().newLine() &
-						"Server Reponse: " & saleResponse.xmlRoot.responseText.xmlText
-					);
+					var httpService = new http();
+					httpService.setMethod("post");
+					httpService.setUrl("#appUrl#/index.cfm/api/ecs/payments/sale.json");
+					httpService.addParam(type="formfield", name="amount", value=arguments.payment.getAmount());
+					httpService.addParam(type="formfield", name="policyID", value=arguments.policy.getPolicyID());
+					httpService.addParam(type="formfield", name="insuredID", value=arguments.policy.getInsuredID());
+					httpService.addParam(type="formfield", name="paymentInfoType", value=arguments.paymentInfo.getPaymentInfoType());
+					httpService.addParam(type="formfield", name="payment", value="creditcard");
+					httpService.addParam(type="formfield", name="payment_name", value=arguments.paymentInfo.getPaymentName());
+					httpService.addParam(type="formfield", name="address1", value=arguments.paymentInfo.getAddress1());
+					httpService.addParam(type="formfield", name="city", value=arguments.paymentInfo.getCity());
+					httpService.addParam(type="formfield", name="state", value=arguments.paymentInfo.getState());
+					httpService.addParam(type="formfield", name="zip", value=arguments.paymentInfo.getZip());
+					httpService.addParam(type="formfield", name="country", value=arguments.paymentInfo.getCCCountry());
+					httpService.addParam(type="formfield", name="ccNumber", value=arguments.paymentInfo.getCCNumber());
+					httpService.addParam(type="formfield", name="ccExp", value=ccEXP);
+					httpService.addParam(type="formfield", name="cvv", value=arguments.paymentInfo.getCCSecurity1());
+					httpService.addParam(type="formfield", name="customerVault", value="");
+					httpService.addParam(type="formfield", name="recurringPayment", value=arguments.paymentInfo.getRecurringPayment());
+
+					prefix = httpService.send().getPrefix();
+					var saleResponse = deserializeJSON(prefix.fileContent);
+
+					if (saleResponse.message.response != 1) {
+						throw(
+							"Unable to post credit card payment." & getUtils().newLine() &
+							"Error Code: " & saleResponse.message.responseText.response_code & getUtils().newLine() &
+							"Server Reponse: " & saleResponse.message.responseText
+						);
+					}
+
+					arguments.ECSTransaction = ECSTransactionService.get(saleResponse.message.ECSTransactionID);
+
+					//arguments.payment.getPaymentService().get(saleResponse.message.paymentID);
+
+					arguments.payment.setCheckNum(Right(arguments.paymentInfo.getCCNumber(),4) & " / " & saleResponse.message.authCode);
+					arguments.payment.setNote("CreditCard");
+
 				}
 
 				arguments.policy.addPayment(arguments.payment);
-
-				// lookup and edit IVRPayment
-				IVRPayment = getIVRPaymentService().get(saleResponse.xmlRoot.IVR_PaymentID.xmlText);
-				IVRPayment.setPayment(arguments.payment);
-				IVRPayment.setIsPosted(1);
-				save(IVRPayment);
-
-				arguments.policy.addIVRPayment(IVRPayment);
-				*/
 			} else {
 				arguments.policy.addPayment(arguments.payment);
 			}
 
 			save(entity=arguments.payment, flush=true);
 			refresh(arguments.payment);
+
 
 			if (!isNull(arguments.paymentInfo)) {
 				save(entity=arguments.paymentInfo, flush=true);
@@ -227,20 +287,38 @@ component
 			}
 
 			// create confirmation note
-			if (!isNull(IVRPayment)) {
+			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
+
+				arguments.ECSTransaction.setPaymentID(arguments.payment.getPaymentID());
+				arguments.ECSTransaction.setUserID(5);
+				save(entity=arguments.ECSTransaction, flush=true);
+				refresh(arguments.ECSTransaction);
+
+				var cardType = "???";
+
+				if (arguments.paymentInfo.getCCType() == 1) {
+					cardType = "AMEX";
+				} else if(arguments.paymentInfo.getCCType() == 2){
+					cardType = "MasterCard";
+				} else if (arguments.paymentInfo.getCCType() == 3) {
+					cardType = "Visa";
+				} else if (arguments.paymentInfo.getCCType() == 4) {
+					cardType = "Discover";
+				}
+
 				arguments.policy.addNote(getNoteService().new({
 					"policy" = arguments.policy,
-					"user" = getSystemUser(),
+					"user" = 5,
 					"noteType" = 5,
 					"subject" = "Credit Card Payment",
 					"body" = arrayToList([
 						"Date/Time: " & getDateUtils().formatDateTime(arguments.payment.getPaymentDate()),
-						"Card Holder: " & IVRPayment.getCardHolder(),
-						"Amount Charged to Credit Card: " & dollarFormat(IVRPayment.getAmount() + IVRPayment.getPrimorisFee()),
-						"Amount Applied to Policy: " & dollarFormat(IVRPayment.getAmount()),
-						"Service Charge: " & dollarFormat(IVRPayment.getPrimorisFee()),
-						"Credit Card: " & IVRPayment.getCardType(),
-						"Confirmation Number: " & arguments.payment.getConfirmationNum()
+						"Card Holder: " & arguments.paymentInfo.getPaymentName(),
+						"Amount Charged to Credit Card: " & dollarFormat(arguments.payment.getAmount()),
+						"Amount Applied to Policy: " & dollarFormat(arguments.payment.getAmount()),
+						"Service Charge: " & dollarFormat(0),
+						"Credit Card: " & cardType,
+						"Confirmation Number: " & arguments.ECSTransaction.getTransactionID()
 					], "<br />")
 				}));
 

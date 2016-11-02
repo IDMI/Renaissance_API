@@ -34,6 +34,7 @@ component
 	property name="noTrans" ormtype="short" default="0";
 	property name="paymentMethod" default="0" generated="never" insert="false" update="false" persistent="false";
 	property name="confirmationNum" type="string" persistent="false" default="" setter="false";
+	property name="voidPaymentID" ormtype="int" default="1" insert="false" update="false";
 
 	// relations
 	property name="policy" fieldtype="many-to-one" fkcolumn="policyID" cfc="model.policy.Policy" lazy="true" inverse="true";

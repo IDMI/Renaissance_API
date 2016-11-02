@@ -92,7 +92,7 @@ Optional Methods
 		// custom settings
 		settings = {
 			appMappingWithDots = appMappingWithDots,
-			appUrl = "http://windhaven.live.ptsapp.com",
+			appUrl = "https://windhaven.live.ptsapp.com",
 			defaultFormat = "json",
 			requiresSSL = false,
 			rootDrive = "D:",
@@ -105,7 +105,10 @@ Optional Methods
 		// the value of the environment is a list of regex patterns to match the cgi.http_host.
 		environments = {
 			local = "\.local",
-			development = "\.dev\."
+			development = "\.dev\.",
+			qa = "\.qa\.",
+			cycle = "\.cycle\.",
+			staging = "\.staging"
 		};
 
 		// Module Directives
@@ -271,14 +274,29 @@ Optional Methods
 		debugger.expandedRCPanel = false;
 		debugger.expandedModulesPanel = false;
 
-		//settings.appUrl = reReplace(settings.appUrl, "^(http|https):\/\/(\w+)\.(dev|support|staging|live)\.ptsapp\.com", "http://\2.dev.ptsapp.com");
+		settings.appUrl = "windhaven.local";
 		settings.requiresSSL = false;
 		settings.rootDrive = "C:";
 		settings.attachmentDir = "C:\pts\attachment\";
 	}
 
 	function development() {
-		settings.appUrl = reReplace(settings.appUrl, "^(http|https):\/\/(\w+)\.(dev|support|staging|live)\.ptsapp\.com", "http://\2.dev.ptsapp.com");
+		settings.appUrl = "windhaven.dev.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
+	function qa() {
+		settings.appUrl = "windhaven.qa.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
+	function cycle() {
+		settings.appUrl = "windhaven.cycle.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
+	function staging() {
+		settings.appUrl = "windhaven.staging.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 </cfscript>
