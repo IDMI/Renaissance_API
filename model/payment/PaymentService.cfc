@@ -186,7 +186,7 @@ component
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
 
-				var ccExp = toString(right("00" & DatePart("m",arguments.paymentInfo.getCCexpDate()), 2)) & "/" & toString(Right(DatePart('yyyy', arguments.paymentInfo.getCCexpDate()), 2));
+				var ccExp = toString(right("00" & DatePart("m",arguments.paymentInfo.getCCexpDate()), 2)) & toString(Right(DatePart('yyyy', arguments.paymentInfo.getCCexpDate()), 2));
 				var httpService = new http();
 				httpService.setMethod("get");
 				httpService.setUrl("#getAppURL()#/index.cfm/api/ecs/payments/validate.json");
