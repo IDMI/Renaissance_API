@@ -141,7 +141,7 @@ Description :
 
 		map("systemUser")
 			.toFactoryMethod("UserService", "get")
-			.methodArg(name="id", value="5")
+			.methodArg(name="id", value="6")
 			.asSingleton();
 
 		// webservices

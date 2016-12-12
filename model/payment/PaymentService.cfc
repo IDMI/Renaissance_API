@@ -281,10 +281,16 @@ component
 
 
 			if (!isNull(arguments.paymentInfo)) {
+				if (arguments.payment.getMethod() != application.constants.payment.method.creditCard) {
+					arguments.paymentInfo.setCCExpDate('');
+				}
+
 				save(entity=arguments.paymentInfo, flush=true);
 				refresh(arguments.paymentInfo);
 				postPaymentInfo(arguments.payment, arguments.paymentInfo);
 			}
+
+
 
 			// create confirmation note
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
@@ -342,6 +348,7 @@ component
 				save(entity=arguments.policy, flush=true);
 				refresh(arguments.policy);
 			}
+
 
 			// active and non-pay
 			if (arguments.policy.getStatus() == application.constants.policy.status.active &&

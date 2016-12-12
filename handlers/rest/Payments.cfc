@@ -54,7 +54,7 @@ component
 			prc.data.message = "Invalid or missing data";
 			prc.data.detail = errors;
 		} else {
-			if (len(trim(paymentInfo.getCCExpDate()))) {
+			if (len(trim(paymentInfo.getCCExpDate())) && paymentInfo.getCCExpDate() GT 0) {
 				paymentInfo.setCCExpDate(getDateUtils().formatDate(createDate(right(trim(paymentInfo.getCCExpDate()), 2), left(trim(paymentInfo.getCCExpDate()), 2), daysInMonth(createDate(right(trim(paymentInfo.getCCExpDate()), 2), left(trim(paymentInfo.getCCExpDate()), 2), 1)))));
 			}
 
