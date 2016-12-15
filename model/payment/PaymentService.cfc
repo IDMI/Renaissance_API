@@ -286,7 +286,7 @@ component
 				}
 
 				save(entity=arguments.paymentInfo, flush=true);
-				refresh(arguments.paymentInfo);
+				//refresh(arguments.paymentInfo);
 				postPaymentInfo(arguments.payment, arguments.paymentInfo);
 			}
 
