@@ -188,7 +188,7 @@ component
 
 				var ccExp = toString(right("00" & DatePart("m",arguments.paymentInfo.getCCexpDate()), 2)) & toString(Right(DatePart('yyyy', arguments.paymentInfo.getCCexpDate()), 2));
 				var httpService = new http();
-				httpService.setMethod("get");
+				httpService.setMethod("post");
 				httpService.setUrl("#getAppURL()#/index.cfm/api/ecs/payments/validate.json");
 				httpService.addParam(type="url", name="payment", value="creditcard");
 				httpService.addParam(type="url", name="payment_name", value=arguments.paymentInfo.getPaymentName());
