@@ -105,8 +105,10 @@ Optional Methods
 		// the value of the environment is a list of regex patterns to match the cgi.http_host.
 		environments = {
 			local = "\.local",
+			localalt = "\.local\.",
 			development = "\.dev\.",
 			qa = "\.qa\.",
+			er = "\.er\.",
 			cycle = "\.cycle\.",
 			staging = "\.staging"
 		};
@@ -280,6 +282,30 @@ Optional Methods
 		settings.attachmentDir = "C:\pts\attachment\";
 	}
 
+	function localalt() {
+		coldbox.debugPassword = "";
+		coldbox.reinitPassword = "";
+		coldbox.debugMode = false;
+		coldbox.handlersIndexAutoReload = true;
+		coldbox.handlerCaching = false;
+		coldbox.eventCaching = false;
+
+		//modules.autoReload = true;
+
+		logBox.root = { levelmax = "DEBUG", appenders = "*" };
+
+		debugger.expandedTracerPanel = false;
+		debugger.expandedInfoPanel = false;
+		debugger.expandedCachePanel = false;
+		debugger.expandedRCPanel = false;
+		debugger.expandedModulesPanel = false;
+
+		settings.appUrl = "http://windhaven.local.ptsapp.com";
+		settings.requiresSSL = false;
+		settings.rootDrive = "C:";
+		settings.attachmentDir = "C:\pts\attachment\";
+	}
+
 	function development() {
 		settings.appUrl = "http://windhaven.dev.ptsapp.com";
 		settings.requiresSSL = false;
@@ -292,6 +318,11 @@ Optional Methods
 
 	function cycle() {
 		settings.appUrl = "http://windhaven.cycle.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
+	function er() {
+		settings.appUrl = "http://windhaven.er.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
