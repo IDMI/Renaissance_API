@@ -110,7 +110,8 @@ Optional Methods
 			qa = "\.qa\.",
 			er = "\.er\.",
 			cycle = "\.cycle\.",
-			staging = "\.staging"
+			staging = "\.staging",
+			stagingalt = "\.staging\."
 		};
 
 		// Module Directives
@@ -283,27 +284,7 @@ Optional Methods
 	}
 
 	function localalt() {
-		coldbox.debugPassword = "";
-		coldbox.reinitPassword = "";
-		coldbox.debugMode = false;
-		coldbox.handlersIndexAutoReload = true;
-		coldbox.handlerCaching = false;
-		coldbox.eventCaching = false;
-
-		//modules.autoReload = true;
-
-		logBox.root = { levelmax = "DEBUG", appenders = "*" };
-
-		debugger.expandedTracerPanel = false;
-		debugger.expandedInfoPanel = false;
-		debugger.expandedCachePanel = false;
-		debugger.expandedRCPanel = false;
-		debugger.expandedModulesPanel = false;
-
-		settings.appUrl = "http://windhaven.local.ptsapp.com";
-		settings.requiresSSL = false;
-		settings.rootDrive = "C:";
-		settings.attachmentDir = "C:\pts\attachment\";
+		local();
 	}
 
 	function development() {
@@ -329,6 +310,10 @@ Optional Methods
 	function staging() {
 		settings.appUrl = "http://windhaven.staging.ptsapp.com";
 		settings.requiresSSL = false;
+	}
+
+	function stagingalt() {
+		staging();
 	}
 </cfscript>
 </cfcomponent>
