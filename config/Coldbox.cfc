@@ -104,7 +104,7 @@ Optional Methods
 		// create a function with the name of the environment so it can be executed if that environment is detected
 		// the value of the environment is a list of regex patterns to match the cgi.http_host.
 		environments = {
-			local = "\.local",
+			localdev = "\.local",
 			localalt = "\.local\.",
 			development = "\.dev\.",
 			qa = "\.qa\.",
@@ -259,7 +259,7 @@ Optional Methods
 		*/
 	}
 
-	function local() {
+	function localdev() {
 		coldbox.debugPassword = "";
 		coldbox.reinitPassword = "";
 		coldbox.debugMode = false;
@@ -284,7 +284,7 @@ Optional Methods
 	}
 
 	function localalt() {
-		local();
+		localdev();
 	}
 
 	function development() {
