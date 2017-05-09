@@ -182,6 +182,9 @@ component
 				arguments.paymentInfo.setUser(arguments.payment.getUser());
 			}
 
+				arguments.payment.Process_AdditionalFees(payment.GetPolicyID(),
+				payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),
+				policy.GetStatus(),policy.GetInstallmentFee(),payment.GetAmount(),0);
 
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
@@ -213,12 +216,12 @@ component
 						"Server Reponse: " & validateResponse.message.responseText
 					);
 				} else {
-
 				//try{
 				arguments.ECSTransaction = ECSTransactionService.get(validateResponse.message.ECSTransactionID);
 				arguments.ECSTransaction.setUserID(5);
 				save(entity=arguments.ECSTransaction, flush=true);
 				refresh(arguments.ECSTransaction);
+
 				//} catch (any e) {
 					//throw(
 						//"validateResponse=#serializeJSON(validateResponse)#"
@@ -268,6 +271,8 @@ component
 
 					arguments.payment.setCheckNum(Right(arguments.paymentInfo.getCCNumber(),4) & " / " & saleResponse.message.authCode);
 					arguments.payment.setNote("CreditCard");
+
+					arguments.payment.setVoidPaymentID(1);
 
 				}
 
