@@ -182,7 +182,8 @@ component
 				arguments.paymentInfo.setUser(arguments.payment.getUser());
 			}
 
-				arguments.payment.Process_AdditionalFees(payment.GetPolicyID(),
+			//WIND-1749
+				Process_AdditionalFees(payment.GetPolicyID(),
 				payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),
 				policy.GetStatus(),policy.GetInstallmentFee(),payment.GetAmount(),0);
 
@@ -272,9 +273,12 @@ component
 					arguments.payment.setCheckNum(Right(arguments.paymentInfo.getCCNumber(),4) & " / " & saleResponse.message.authCode);
 					arguments.payment.setNote("CreditCard");
 
-					arguments.payment.setVoidPaymentID(1);
+
 
 				}
+
+				//WIND-1749
+				arguments.payment.setVoidPaymentID(1);
 
 				arguments.policy.addPayment(arguments.payment);
 			} else {
@@ -492,4 +496,24 @@ component
 		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
 		procService.execute();
 	}
+
+	//Wind-1749
+	private void function Process_AdditionalFees( numeric policyID, date postMarkedDate, cancelledDate, numeric paymentID,
+												 numeric policyStatus, numeric processFee, numeric paymentAmount,numeric debug )
+	{
+		var queryObject = new storedproc();
+
+		queryObject.setProcedure("payment.Process_AdditionalFees");
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policyID);
+		queryObject.addParam(cfsqltype="cf_sql_date", type="in", value=arguments.postMarkedDate);
+		queryObject.addParam(cfsqltype="cf_sql_varchar", type="in", value=arguments.cancelledDate);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.paymentID);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policyStatus);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.processFee);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.paymentAmount);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
+
+		queryObject.execute()
+	}
+
 }
