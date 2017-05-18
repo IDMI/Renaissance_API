@@ -177,7 +177,8 @@ component
 
 			// populate paymentInfo entity
 			if (!isNull(arguments.paymentInfo)) {
-				arguments.paymentInfo.setPolicy(arguments.policy);
+				arguments.paymentIn
+				fo.setPolicy(arguments.policy);
 				arguments.paymentInfo.setInsured(arguments.policy.getInsured());
 				arguments.paymentInfo.setUser(arguments.payment.getUser());
 			}
@@ -185,7 +186,7 @@ component
 			//WIND-1749
 				Process_AdditionalFees(payment.GetPolicyID(),
 				payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),
-				policy.GetStatus(),policy.GetInstallmentFee(),payment.GetAmount(),0);
+				policy.GetStatus(),1,payment.GetAmount(),0);
 
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
