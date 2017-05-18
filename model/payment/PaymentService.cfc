@@ -184,9 +184,10 @@ component
 			}
 
 			//WIND-1749
+			/*
 				Process_AdditionalFees(payment.GetPolicyID(),
 				payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),
-				policy.GetStatus(),1,payment.GetAmount(),0);
+				policy.GetStatus(),1,payment.GetAmount(),0);*/
 
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
@@ -279,7 +280,7 @@ component
 				}
 
 				//WIND-1749
-				arguments.payment.setVoidPaymentID(1);
+				//arguments.payment.setVoidPaymentID(1);
 
 				arguments.policy.addPayment(arguments.payment);
 			} else {
@@ -499,7 +500,7 @@ component
 	}
 
 	//Wind-1749
-	private void function Process_AdditionalFees( numeric policyID, date postMarkedDate, cancelledDate, numeric paymentID,
+	/*private void function Process_AdditionalFees( numeric policyID, date postMarkedDate, cancelledDate, numeric paymentID,
 												 numeric policyStatus, numeric processFee, numeric paymentAmount,numeric debug )
 	{
 		var queryObject = new storedproc();
@@ -515,6 +516,6 @@ component
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
 
 		queryObject.execute()
-	}
+	}*/
 
 }
