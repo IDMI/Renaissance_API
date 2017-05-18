@@ -177,11 +177,16 @@ component
 
 			// populate paymentInfo entity
 			if (!isNull(arguments.paymentInfo)) {
-				arguments.paymentInfo.setPolicy(arguments.policy);
+				arguments.paymentIn
+				fo.setPolicy(arguments.policy);
 				arguments.paymentInfo.setInsured(arguments.policy.getInsured());
 				arguments.paymentInfo.setUser(arguments.payment.getUser());
 			}
 
+			//WIND-1749
+				Process_AdditionalFees(payment.GetPolicyID(),
+				payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),
+				policy.GetStatus(),1,payment.GetAmount(),0);
 
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
@@ -213,12 +218,12 @@ component
 						"Server Reponse: " & validateResponse.message.responseText
 					);
 				} else {
-
 				//try{
 				arguments.ECSTransaction = ECSTransactionService.get(validateResponse.message.ECSTransactionID);
 				arguments.ECSTransaction.setUserID(5);
 				save(entity=arguments.ECSTransaction, flush=true);
 				refresh(arguments.ECSTransaction);
+
 				//} catch (any e) {
 					//throw(
 						//"validateResponse=#serializeJSON(validateResponse)#"
@@ -269,7 +274,12 @@ component
 					arguments.payment.setCheckNum(Right(arguments.paymentInfo.getCCNumber(),4) & " / " & saleResponse.message.authCode);
 					arguments.payment.setNote("CreditCard");
 
+
+
 				}
+
+				//WIND-1749
+				arguments.payment.setVoidPaymentID(1);
 
 				arguments.policy.addPayment(arguments.payment);
 			} else {
@@ -487,4 +497,24 @@ component
 		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
 		procService.execute();
 	}
+
+	//Wind-1749
+	private void function Process_AdditionalFees( numeric policyID, date postMarkedDate, cancelledDate, numeric paymentID,
+												 numeric policyStatus, numeric processFee, numeric paymentAmount,numeric debug )
+	{
+		var queryObject = new storedproc();
+
+		queryObject.setProcedure("payment.Process_AdditionalFees");
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policyID);
+		queryObject.addParam(cfsqltype="cf_sql_date", type="in", value=arguments.postMarkedDate);
+		queryObject.addParam(cfsqltype="cf_sql_varchar", type="in", value=arguments.cancelledDate);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.paymentID);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policyStatus);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.processFee);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.paymentAmount);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
+
+		queryObject.execute()
+	}
+
 }
