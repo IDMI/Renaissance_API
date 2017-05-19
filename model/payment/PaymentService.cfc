@@ -183,7 +183,7 @@ component
 			}
 
 
-				Process_AdditionalFees(payment.GetPolicyID(),payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),policy.GetStatus(),1,payment.GetAmount(),0);
+				//Process_AdditionalFees(payment.GetPolicyID(),payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),policy.GetStatus(),1,payment.GetAmount(),0);
 
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
@@ -495,7 +495,7 @@ component
 		procService.execute();
 	}
 
-
+/*
 	private void function Process_AdditionalFees( numeric policyID, date postMarkedDate, cancelledDate, numeric paymentID,
 												 numeric policyStatus, numeric processFee, numeric paymentAmount,numeric debug )
 	{
@@ -512,6 +512,6 @@ component
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
 
 		queryObject.execute()
-	}
+	}*/
 
 }
