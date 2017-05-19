@@ -437,12 +437,12 @@ component
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
 		queryObject.addParam(cfsqltype="cf_sql_date", type="in", value=arguments.payment.getPostMarkedDate());
 		queryObject.addParam(cfsqltype="cf_sql_varchar", type="in", value=arguments.policy.getCancelledDate(), null=len(trim(arguments.policy.getCancelledDate()))?false:true);
-		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.payment.getPaymentID());
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=1);
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getStatus());
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.processFee);
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.payment.getAmount());
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
-		queryObject.addParam(cfsqltype="cf_sql_integer", type="out", variable="additionalFeesCharge", value="");
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="out", variable="additionalFeesCharge");
 
 		queryObject.execute();
 	}
