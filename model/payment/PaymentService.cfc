@@ -440,7 +440,7 @@ component
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.payment.getPaymentID());
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments..policy.getStatus());
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.processFee);
-		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.payment.getPaymentAmount());
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.payment.getAmount());
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="out", variable="additionalFeesCharge");
 
