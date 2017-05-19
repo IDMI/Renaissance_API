@@ -177,13 +177,11 @@ component
 
 			// populate paymentInfo entity
 			if (!isNull(arguments.paymentInfo)) {
-				arguments.paymentIn
-				fo.setPolicy(arguments.policy);
+				arguments.paymentInfo.setPolicy(arguments.policy);
 				arguments.paymentInfo.setInsured(arguments.policy.getInsured());
 				arguments.paymentInfo.setUser(arguments.payment.getUser());
 			}
 
-			//WIND-1749
 			/*
 				Process_AdditionalFees(payment.GetPolicyID(),
 				payment.GetPostMarkedDate(),policy.GetCancelledDate(),payment.GetPaymentID(),
@@ -279,7 +277,7 @@ component
 
 				}
 
-				//WIND-1749
+
 				//arguments.payment.setVoidPaymentID(1);
 
 				arguments.policy.addPayment(arguments.payment);
@@ -499,7 +497,7 @@ component
 		procService.execute();
 	}
 
-	//Wind-1749
+
 	/*private void function Process_AdditionalFees( numeric policyID, date postMarkedDate, cancelledDate, numeric paymentID,
 												 numeric policyStatus, numeric processFee, numeric paymentAmount,numeric debug )
 	{
