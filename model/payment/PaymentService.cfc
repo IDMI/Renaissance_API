@@ -430,7 +430,7 @@ component
 		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
 		procService.execute();
 	}
-	private void function processAdditionalFees(required component policy, required component payment, numeric processFee, numeric debug=0) {
+	private void function processAdditionalFees(required component policy, required component payment, numeric processFee = 0, numeric debug=0) {
 		var queryObject = new storedproc();
 
 		queryObject.setProcedure("payment.Process_AdditionalFees");
@@ -442,7 +442,7 @@ component
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.processFee);
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.payment.getAmount());
 		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
-		queryObject.addParam(cfsqltype="cf_sql_integer", type="out", variable="additionalFeesCharge");
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="out", variable="additionalFeesCharge", value="");
 
 		queryObject.execute();
 	}
