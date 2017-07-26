@@ -109,6 +109,7 @@ Optional Methods
 			development = "\.dev\.",
 			qa = "\.qa\.",
 			er = "\.er\.",
+			claims = "\.claims\.",
 			cycle = "\.cycle\.",
 			staging = "\.staging",
 			stagingalt = "\.staging\."
@@ -309,6 +310,11 @@ Optional Methods
 
 	function staging() {
 		settings.appUrl = "http://windhaven.staging.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
+	function claims() {
+		settings.appUrl = "http://windhaven.claims.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
