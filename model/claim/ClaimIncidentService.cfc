@@ -35,6 +35,7 @@ component extends="coldbox.system.orm.hibernate.VirtualEntityService" singleton 
 
 		if (claimIncident.getNum() == "TBD") {
 			claimIncident.setNum(setClaimNumber(claimIncident));
+			save(claimIncident, forceInsert, flush, transactional);
 		}
 	}
 
