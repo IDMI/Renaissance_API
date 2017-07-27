@@ -48,3 +48,6 @@ import/GEICSExport
 .settings/*
 /kakapo/log/pages/*.*
 /kakapo/log/variables/*.*
+.vs/*.*
+.vs/*
+.vscode/*
