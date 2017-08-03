@@ -26,11 +26,11 @@ component
 	property name="appUrl" inject="coldbox:setting:appUrl";
 
 	/**
-    @author Peruz Carlsen
-    @createdate 20120307
-    @hint constructor
-    @output false
-    **/
+	@author Peruz Carlsen
+	@createdate 20120307
+	@hint constructor
+	@output false
+	**/
 	public model.payment.PaymentService function init() {
 		super.init(entityName="Payment");
 
@@ -47,7 +47,7 @@ component
 
 		// adjust existing payment
 		arguments.payment.setStatus(20);
-		arguments.payment.setDepositNum(systemInfo.getCurrentDepositNum()==arguments.payment.getDepositNum()?0:arguments.payment.getDepositNum());
+		arguments.payment.setDepositNum(systemInfo.getCurrentDepositNum() == arguments.payment.getDepositNum() ? 0 : arguments.payment.getDepositNum());
 		save(arguments.payment);
 
 		// adjust DepositProof
@@ -121,11 +121,7 @@ component
 
 				try {
 					if (refundResponse.message.response != 1) {
-						throw(
-							"Unable to refund credit card payment." & getUtils().newLine() &
-							"Error Code: " & refundResponse.message.responseText.response_code & getUtils().newLine() &
-							"Server Reponse: " & refundResponse.message.responseText
-						);
+						throw("Unable to refund credit card payment." & getUtils().newLine() & "Error Code: " & refundResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & refundResponse.message.responseText);
 					}
 
 					var ECSTransaction = ECSTransactionService.get(refundResponse.message.ECSTransactionID);
@@ -139,23 +135,18 @@ component
 
 			}
 
-		 }
+		}
 
-		 return newPayment;
+		return newPayment;
 	}
 
 	/**
-    @author Peruz Carlsen
-    @createdate 20120307
-    @hint Handles sale requests
-    @output false
-    **/
-	public model.payment.Payment function sale(
-		required model.policy.Policy policy,
-		required model.payment.Payment payment,
-		model.paymentInfo.PaymentInfo paymentInfo,
-		model.payment.ECSTransaction ECSTransaction)
-	{
+	@author Peruz Carlsen
+	@createdate 20120307
+	@hint Handles sale requests
+	@output false
+	**/
+	public model.payment.Payment function sale(required model.policy.Policy policy, required model.payment.Payment payment, model.paymentInfo.PaymentInfo paymentInfo, model.payment.ECSTransaction ECSTransaction) {
 		try {
 			if (!isNull(arguments.payment.getPaymentID())) {
 				return arguments.payment;
@@ -182,10 +173,10 @@ component
 				arguments.paymentInfo.setUser(arguments.payment.getUser());
 			}
 
+			processAdditionalFees(arguments.policy, arguments.payment, 1, 0);
 
 			// credit card payments
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
-
 				var ccExp = toString(right("00" & DatePart("m",arguments.paymentInfo.getCCexpDate()), 2)) & toString(Right(DatePart('yyyy', arguments.paymentInfo.getCCexpDate()), 2));
 				var httpService = new http();
 				httpService.setMethod("post");
@@ -207,29 +198,12 @@ component
 
 				// error check
 				if (validateResponse.message.response != 1) {
-					throw(
-						"Unable to post credit card payment." & getUtils().newLine() &
-						"Error Code: " & validateResponse.message.responseText.response_code & getUtils().newLine() &
-						"Server Reponse: " & validateResponse.message.responseText
-					);
+					throw("Unable to post credit card payment." & getUtils().newLine() & "Error Code: " & validateResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & validateResponse.message.responseText);
 				} else {
-
-				//try{
-				arguments.ECSTransaction = ECSTransactionService.get(validateResponse.message.ECSTransactionID);
-				arguments.ECSTransaction.setUserID(5);
-				save(entity=arguments.ECSTransaction, flush=true);
-				refresh(arguments.ECSTransaction);
-				//} catch (any e) {
-					//throw(
-						//"validateResponse=#serializeJSON(validateResponse)#"
-					//);
-					//abort;
-				//}
-
-				//throw(
-					//"amount=#arguments.payment.getAmount()#,policyID=#arguments.payment.getPolicyID()#,insuredID=#arguments.payment.getInsuredID()#,paymentInfoType=#arguments.payment.getPaymentInfoType()#,payment_name=#arguments.payment.getPaymentName()#,address1=#arguments.payment.getAddress1()#,city=#arguments.payment.getCity()#"
-				//);
-				//abort;
+					arguments.ECSTransaction = ECSTransactionService.get(validateResponse.message.ECSTransactionID);
+					arguments.ECSTransaction.setUserID(5);
+					save(entity=arguments.ECSTransaction, flush=true);
+					refresh(arguments.ECSTransaction);
 
 					var httpService = new http();
 					httpService.setMethod("post");
@@ -255,22 +229,14 @@ component
 					var saleResponse = deserializeJSON(prefix.fileContent);
 
 					if (saleResponse.message.response != 1) {
-						throw(
-							"Unable to post credit card payment." & getUtils().newLine() &
-							"Error Code: " & saleResponse.message.responseText.response_code & getUtils().newLine() &
-							"Server Reponse: " & saleResponse.message.responseText
-						);
+						throw("Unable to post credit card payment." & getUtils().newLine() & "Error Code: " & saleResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & saleResponse.message.responseText);
 					}
 
 					arguments.ECSTransaction = ECSTransactionService.get(saleResponse.message.ECSTransactionID);
 
-					//arguments.payment.getPaymentService().get(saleResponse.message.paymentID);
-
 					arguments.payment.setCheckNum(Right(arguments.paymentInfo.getCCNumber(),4) & " / " & saleResponse.message.authCode);
 					arguments.payment.setNote("CreditCard");
-
 				}
-
 				arguments.policy.addPayment(arguments.payment);
 			} else {
 				arguments.policy.addPayment(arguments.payment);
@@ -279,22 +245,16 @@ component
 			save(entity=arguments.payment, flush=true);
 			refresh(arguments.payment);
 
-
 			if (!isNull(arguments.paymentInfo)) {
 				if (arguments.payment.getMethod() != application.constants.payment.method.creditCard) {
 					arguments.paymentInfo.setCCExpDate('');
 				}
 
 				save(entity=arguments.paymentInfo, flush=true);
-				//refresh(arguments.paymentInfo);
 				postPaymentInfo(arguments.payment, arguments.paymentInfo);
 			}
-
-
-
 			// create confirmation note
 			if (arguments.payment.getMethod() == application.constants.payment.method.creditCard) {
-
 				arguments.ECSTransaction.setPaymentID(arguments.payment.getPaymentID());
 				arguments.ECSTransaction.setUserID(5);
 				save(entity=arguments.ECSTransaction, flush=true);
@@ -304,7 +264,7 @@ component
 
 				if (arguments.paymentInfo.getCCType() == 1) {
 					cardType = "AMEX";
-				} else if(arguments.paymentInfo.getCCType() == 2){
+				} else if (arguments.paymentInfo.getCCType() == 2) {
 					cardType = "MasterCard";
 				} else if (arguments.paymentInfo.getCCType() == 3) {
 					cardType = "Visa";
@@ -332,9 +292,7 @@ component
 			}
 
 			// pending & new business
-			if (!arguments.policy.getIsRenewal() &&
-				arguments.policy.getStatus() == application.constants.policy.status.pending)
-			{
+			if (!arguments.policy.getIsRenewal() && arguments.policy.getStatus() == application.constants.policy.status.pending) {
 				// adjust eff/exp dates
 				if (dateDiff("d", getDateUtils().formatDate(arguments.policy.getEffectiveDate()), getDateUtils().formatDate(now())) >= 0) {
 					arguments.policy.setEffectiveDate(getDateUtils().formatDateTime(now()));
@@ -349,21 +307,15 @@ component
 				refresh(arguments.policy);
 			}
 
-
 			// active and non-pay
-			if (arguments.policy.getStatus() == application.constants.policy.status.active &&
-				arguments.policy.getCancelledReason() == application.constants.policy.cancel.reason.nonpay)
-			{
+			if (arguments.policy.getStatus() == application.constants.policy.status.active && arguments.policy.getCancelledReason() == application.constants.policy.cancel.reason.nonpay) {
 				clearCancellationNotice(arguments.policy);
 				refresh(arguments.policy);
 			}
 
 			// terminated and non-pay
-			if (arguments.policy.getStatus() == application.constants.policy.status.cancelled &&
-				arguments.policy.getCancelledReason() == application.constants.policy.cancel.reason.nonpay &&
-				datediff("d", getDateUtils().formatDate(arguments.payment.getPostMarkedDate()), getDateUtils().formatDate(arguments.policy.getExpirationDate())) > 0 &&
-				datediff("d", getDateUtils().formatDate(arguments.policy.getCancelledDate()), getDateUtils().formatDate(arguments.payment.getPostMarkedDate())) <= 30)
-			{
+			if (arguments.policy.getStatus() == application.constants.policy.status.cancelled && arguments.policy.getCancelledReason() == application.constants.policy.cancel.reason.nonpay && datediff("d", getDateUtils().formatDate(arguments.payment.getPostMarkedDate()), getDateUtils().formatDate(arguments.policy.getExpirationDate())) > 0 && datediff("d", getDateUtils().formatDate(arguments.policy.getCancelledDate()), getDateUtils().formatDate(arguments.payment.getPostMarkedDate())) <= 30) {
+
 				arguments.policy.setCheckReinstatement(1);
 				save(entity=arguments.policy, flush=true);
 				processReinstatement(arguments.policy);
@@ -371,9 +323,7 @@ component
 			}
 
 			// not written & renewal
-			if (arguments.policy.getIsRenewal() &&
-				arguments.policy.getStatus() == application.constants.policy.status.notwritten)
-			{
+			if (arguments.policy.getIsRenewal() && arguments.policy.getStatus() == application.constants.policy.status.notwritten) {
 				processNotWrittenRenewal(arguments.policy);
 				refresh(arguments.policy);
 			}
@@ -394,11 +344,11 @@ component
 	}
 
 	/**
-    @author Peruz Carlsen
-    @createdate 20120329
-    @hint Executes clearCancellationNotice procedure
-    @output false
-    **/
+	@author Peruz Carlsen
+	@createdate 20120329
+	@hint Executes clearCancellationNotice procedure
+	@output false
+	**/
 	private void function clearCancellationNotice(required model.policy.Policy policy) {
 		var procService = new storedproc();
 
@@ -408,11 +358,11 @@ component
 	}
 
 	/**
-    @author Peruz Carlsen
-    @createdate 20120326
-    @hint Returns latest policy term
-    @output false
-    **/
+	@author Peruz Carlsen
+	@createdate 20120326
+	@hint Returns latest policy term
+	@output false
+	**/
 	private model.policy.Policy function getLatestTermPolicy(required model.policy.Policy policy) {
 		var procService = new storedproc();
 
@@ -426,18 +376,13 @@ component
 	}
 
 	/**
-    @author Peruz Carlsen
-    @createdate 20120326
-    @hint Executes PostPaymentInfo procedure
-    @output false
-    **/
-	private numeric function postPaymentInfo(
-		required model.payment.Payment payment,
-		required model.paymentInfo.PaymentInfo paymentInfo)
-	{
-		if (isNull(arguments.payment.getPaymentID()) ||
-			isNull(arguments.paymentInfo.getPaymentInfoID()))
-		{
+	@author Peruz Carlsen
+	@createdate 20120326
+	@hint Executes PostPaymentInfo procedure
+	@output false
+	**/
+	private numeric function postPaymentInfo(required model.payment.Payment payment, required model.paymentInfo.PaymentInfo paymentInfo) {
+		if (isNull(arguments.payment.getPaymentID()) || isNull(arguments.paymentInfo.getPaymentInfoID())) {
 			delete(arguments.paymentInfo);
 			return -1;
 		}
@@ -459,13 +404,12 @@ component
 	}
 
 	/**
-    @author Peruz Carlsen
-    @createdate 20120326
-    @hint Executes ProcessRenewal_NotWritten procedure
-    @output false
-    **/
-	private void function processNotWrittenRenewal(required model.policy.Policy policy)
-	{
+	@author Peruz Carlsen
+	@createdate 20120326
+	@hint Executes ProcessRenewal_NotWritten procedure
+	@output false
+	**/
+	private void function processNotWrittenRenewal(required model.policy.Policy policy) {
 		var procService = new storedproc();
 
 		procService.setProcedure("ProcessRenewal_NotWritten");
@@ -474,17 +418,33 @@ component
 	}
 
 	/**
-    @author Peruz Carlsen
-    @createdate 20120328
-    @hint Executes ProcessReinstatement procedure
-    @output false
-    **/
-	private void function processReinstatement(required model.policy.Policy policy)
-	{
+	@author Peruz Carlsen
+	@createdate 20120328
+	@hint Executes ProcessReinstatement procedure
+	@output false
+	**/
+	private void function processReinstatement(required model.policy.Policy policy) {
 		var procService = new storedproc();
 
 		procService.setProcedure("ProcessReinstatement");
 		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
 		procService.execute();
 	}
+	private void function processAdditionalFees(required component policy, required component payment, numeric processFee = 0, numeric debug=0) {
+		var queryObject = new storedproc();
+
+		queryObject.setProcedure("payment.Process_AdditionalFees");
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
+		queryObject.addParam(cfsqltype="cf_sql_date", type="in", value=arguments.payment.getPostMarkedDate());
+		queryObject.addParam(cfsqltype="cf_sql_varchar", type="in", value=arguments.policy.getCancelledDate(), null=len(trim(arguments.policy.getCancelledDate()))?false:true);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=1);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getStatus());
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.processFee);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.payment.getAmount());
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.debug);
+		queryObject.addParam(cfsqltype="cf_sql_integer", type="out", variable="additionalFeesCharge");
+
+		queryObject.execute();
+	}
+
 }
