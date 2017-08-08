@@ -104,11 +104,15 @@ Optional Methods
 		// create a function with the name of the environment so it can be executed if that environment is detected
 		// the value of the environment is a list of regex patterns to match the cgi.http_host.
 		environments = {
-			local = "\.local",
+			localdev = "\.local",
+			localalt = "\.local\.",
 			development = "\.dev\.",
 			qa = "\.qa\.",
+			er = "\.er\.",
+			claims = "\.claims\.",
 			cycle = "\.cycle\.",
-			staging = "\.staging"
+			staging = "\.staging",
+			stagingalt = "\.staging\."
 		};
 
 		// Module Directives
@@ -256,7 +260,7 @@ Optional Methods
 		*/
 	}
 
-	function local() {
+	function localdev() {
 		coldbox.debugPassword = "";
 		coldbox.reinitPassword = "";
 		coldbox.debugMode = false;
@@ -280,6 +284,10 @@ Optional Methods
 		settings.attachmentDir = "C:\pts\attachment\";
 	}
 
+	function localalt() {
+		localdev();
+	}
+
 	function development() {
 		settings.appUrl = "http://windhaven.dev.ptsapp.com";
 		settings.requiresSSL = false;
@@ -295,9 +303,23 @@ Optional Methods
 		settings.requiresSSL = false;
 	}
 
+	function er() {
+		settings.appUrl = "http://windhaven.er.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
 	function staging() {
 		settings.appUrl = "http://windhaven.staging.ptsapp.com";
 		settings.requiresSSL = false;
+	}
+
+	function claims() {
+		settings.appUrl = "http://windhaven.claims.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
+	function stagingalt() {
+		staging();
 	}
 </cfscript>
 </cfcomponent>
