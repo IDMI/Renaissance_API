@@ -48,4 +48,10 @@ import/GEICSExport
 .settings/*
 /kakapo/log/pages/*.*
 /kakapo/log/variables/*.*
+<<<<<<< HEAD
 .vs/*.*
+=======
+.vs/*.*
+.vs/*
+.vscode/*
+>>>>>>> refs/remotes/origin/master
