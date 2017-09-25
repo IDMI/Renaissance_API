@@ -282,6 +282,11 @@ Optional Methods
 		settings.requiresSSL = false;
 		settings.rootDrive = "C:";
 		settings.attachmentDir = "C:\pts\attachment\";
+
+		try {
+			include "/localSettings.cfm";
+		} catch (any e) {
+		}
 	}
 
 	function localalt() {

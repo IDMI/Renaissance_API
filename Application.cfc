@@ -53,6 +53,13 @@ Description :
 		<cfargument name="targetPage" type="string" required="true" />
 		<!--- ************************************************************* --->
 
+		<cfscript>
+		if (ListFindNoCase(cgi.server_name, "live", ".") && cgi.https != "on") {
+			cfheader(statusCode="403", statusText="Forbidden");
+			throw(message="Unauthorized request", type="Application", errorCode="403.SVSSL");
+		}
+		</cfscript>
+
 		<!--- Process A ColdBox Request Only --->
 		<cfif findNoCase('index.cfm', listLast(arguments.targetPage, '/'))>
 			<!--- Reload Checks --->

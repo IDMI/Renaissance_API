@@ -9,7 +9,7 @@ component
 			description = "",
 			entryPoint = {
 				dev="http://windhaven.dev.ptsapi.com",
-				production="http://windhaven.live.ptsapi.com"
+				production="https://windhaven.live.ptsapi.com"
 			},
 			extensionDetection = true,
 			validExtensions = "xml,json",
