@@ -11,10 +11,12 @@
 	setThrowOnInvalidExtension(true);
 
 	// Base URL
+	protocol = "http" & ((ListFindNoCase(cgi.server_name, "live", ".") || cgi.https == "on") ? "s" : "");
+
 	if( len(getSetting('AppMapping') ) lte 1){
-		setBaseURL("http://#cgi.HTTP_HOST#/index.cfm");
+		setBaseURL(protocol & "://#cgi.HTTP_HOST#/index.cfm");
 	} else{
-		setBaseURL("http://#cgi.HTTP_HOST#/#getSetting('AppMapping')#/index.cfm");
+		setBaseURL(protocol & "://#cgi.HTTP_HOST#/#getSetting('AppMapping')#/index.cfm");
 	}
 
 	// Module Routing Added
