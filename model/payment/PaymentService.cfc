@@ -236,12 +236,13 @@ component
 
 					arguments.payment.setCheckNum(Right(arguments.paymentInfo.getCCNumber(),4) & " / " & saleResponse.message.authCode);
 					arguments.payment.setNote("CreditCard");
-					arguments.payment.setVoidPaymentID(1);
 				}
 				arguments.policy.addPayment(arguments.payment);
 			} else {
 				arguments.policy.addPayment(arguments.payment);
 			}
+
+			arguments.payment.setVoidPaymentID(1);
 
 			save(entity=arguments.payment, flush=true);
 			refresh(arguments.payment);
