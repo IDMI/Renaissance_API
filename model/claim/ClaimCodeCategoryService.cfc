@@ -40,7 +40,7 @@ component extends="coldbox.system.orm.hibernate.VirtualEntityService" singleton 
 		}
 
 		if (structKeyExists(criteria, "policyType") && isNumeric(criteria.policyType) && criteria.policyType) {
-			c.add(c.createSubcriteria("ClaimCode", "cc").withProjections(property="claimCodeCategoryID").isEQ("cc.policyType", javaCast("short", criteria.policyType)).propertyIn("id"));
+			c.isEQ("policyType", javaCast("int", criteria.policyType));
 		}
 
 		return c.list(sortOrder=sortOrder, offset=offset, max=max, timeout=timeout, ignoreCase=ignoreCase, asQuery=asQuery);
