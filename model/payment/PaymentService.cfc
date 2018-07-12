@@ -320,6 +320,8 @@ component
 
 				arguments.policy.setCheckReinstatement(1);
 				save(entity=arguments.policy, flush=true);
+
+				process_LateeFee(arguments.policy, arguments.payment);
 				processReinstatement(arguments.policy);
 				refresh(arguments.policy);
 			}
@@ -432,6 +434,18 @@ component
 		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
 		procService.execute();
 	}
+	private void function process_LateeFee(required model.policy.Policy policy, required component payment) {
+		var procService = new storedproc();
+
+		procService.setProcedure("Process_LateFee");
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
+		procService.addParam(cfsqltype="cf_sql_date", type="in", value=arguments.payment.getPostMarkedDate());
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=1);
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=1);
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=0);
+		procService.execute();
+	}
+
 	private void function processAdditionalFees(required component policy, required component payment, numeric processFee = 0, numeric debug=0) {
 		var queryObject = new storedproc();
 
