@@ -321,7 +321,7 @@ component
 				arguments.policy.setCheckReinstatement(1);
 				save(entity=arguments.policy, flush=true);
 
-				process_LateeFee(arguments.policy, arguments.payment);
+				//process_LateeFee(arguments.policy, arguments.payment);
 				processReinstatement(arguments.policy);
 				refresh(arguments.policy);
 			}
