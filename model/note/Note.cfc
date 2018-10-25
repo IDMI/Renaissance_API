@@ -20,7 +20,6 @@ component
 	property name="body" column="body" type="string" ormtype="string" default="";
 	property name="addDate" ormtype="timestamp" generated="insert" insert="false" update="false";
 	property name="noDelete" column="noDelete" type="numeric" ormtype="short" default="0";
-	property name="nonProductionReason" column="nonProductionReason" type="string" ormtype="string" default="";
 	property name="noteDate" ormtype="timestamp" generated="insert" insert="false" update="false";
 	property name="internalNote" column="internalNote" type="numeric" ormtype="short" default="0";
 	property name="subject" column="subject" type="string" ormtype="string" default="";
