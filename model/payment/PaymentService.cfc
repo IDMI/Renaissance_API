@@ -121,7 +121,7 @@ component
 
 				try {
 					if (refundResponse.message.response != 1) {
-						throw("Unable to refund credit card payment." & getUtils().newLine() & "Error Code: " & refundResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & refundResponse.message.responseText);
+						throw("Unable to refund credit card payment." & getUtils().newLine() & "Server Reponse: " & refundResponse.message.responseText);
 					}
 
 					var ECSTransaction = ECSTransactionService.get(refundResponse.message.ECSTransactionID);
@@ -198,7 +198,7 @@ component
 
 				// error check
 				if (validateResponse.message.response != 1) {
-					throw("Unable to post credit card payment." & getUtils().newLine() & "Error Code: " & validateResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & validateResponse.message.responseText);
+					throw("Unable to post credit card payment." & getUtils().newLine() & "Server Reponse: " & validateResponse.message.responseText);
 				} else {
 					arguments.ECSTransaction = ECSTransactionService.get(validateResponse.message.ECSTransactionID);
 					arguments.ECSTransaction.setUserID(5);
@@ -229,7 +229,7 @@ component
 					var saleResponse = deserializeJSON(prefix.fileContent);
 
 					if (saleResponse.message.response != 1) {
-						throw("Unable to post credit card payment." & getUtils().newLine() & "Error Code: " & saleResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & saleResponse.message.responseText);
+						throw("Unable to post credit card payment." & getUtils().newLine() & "Server Reponse: " & saleResponse.message.responseText);
 					}
 
 					arguments.ECSTransaction = ECSTransactionService.get(saleResponse.message.ECSTransactionID);
