@@ -206,16 +206,16 @@ component
 		var qs = new Query();
 		qs.addParam(name="policyID", value=getPolicyID(), cfsqltype="cf_sql_integer");
 		qs.setSQL("
-			SELECT 1
-			FROM Policy
-			WHERE policyID = :policyID
-				AND isRenewal = 0
-				AND EXISTS(SELECT 1
-					FROM EsigSessionLog WITH (NOLOCK)
-					WHERE policyID = Policy.policyID
-						AND remoteSig = 1
-						AND isSigned > 0
-						AND CAST(GetDate() AS DATE) < DateAdd(day, (SELECT daysAllowedForRemoteEsign FROM Windhaven_Config.dbo.PolicyTypes WHERE policyType = Policy.policyType), Policy.effectiveDate))
+			 SELECT 1
+			 FROM Policy
+			 WHERE policyID = :policyID
+				 AND isRenewal = 0
+				 AND EXISTS(SELECT 1
+					 FROM EsigSessionLog WITH (NOLOCK)
+					 WHERE policyID = Policy.policyID
+						 AND remoteSig = 1
+						 AND isSigned > 0
+						 AND CAST(GetDate() AS DATE) < DateAdd(day, (SELECT daysAllowedForRemoteEsign FROM Windhaven_Config.dbo.PolicyTypes WHERE policyType = Policy.policyType), Policy.effectiveDate))
 		");
 
 		return (qs.execute().getResult().recordCount == 1) ? true : false;
