@@ -294,15 +294,19 @@ component
 
 			// pending & new business
 			if (!arguments.policy.getIsRenewal() && arguments.policy.getStatus() == application.constants.policy.status.pending) {
-				// adjust eff/exp dates
-				if (dateDiff("d", getDateUtils().formatDate(arguments.policy.getEffectiveDate()), getDateUtils().formatDate(now())) >= 0) {
-					arguments.policy.setEffectiveDate(getDateUtils().formatDateTime(now()));
-					arguments.policy.setExpirationDate(getDateUtils().formatDate(dateAdd("m", arguments.policy.getPolicyTerm(), arguments.policy.getEffectiveDate())));
+				// If they have just remotely signed the binding docs, don't change the eff/exp dates.
+				if (!arguments.policy.hasEsignedBindingDocs()) {
+					// adjust eff/exp dates
+					if (dateDiff("d", getDateUtils().formatDate(arguments.policy.getEffectiveDate()), getDateUtils().formatDate(now())) >= 0) {
+						arguments.policy.setEffectiveDate(getDateUtils().formatDateTime(now()));
+						arguments.policy.setExpirationDate(getDateUtils().formatDate(dateAdd("m", arguments.policy.getPolicyTerm(), arguments.policy.getEffectiveDate())));
+					}
 				}
 
 				arguments.policy.setStatus(application.constants.policy.status.bound);
 				save(entity=arguments.policy, flush=true);
 				refresh(arguments.policy);
+
 				arguments.policy.setStatus(application.constants.policy.status.active);
 				save(entity=arguments.policy, flush=true);
 				refresh(arguments.policy);
