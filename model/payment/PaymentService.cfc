@@ -121,7 +121,7 @@ component
 
 				try {
 					if (refundResponse.message.response != 1) {
-						throw("Unable to refund credit card payment." & getUtils().newLine() & "Error Code: " & refundResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & refundResponse.message.responseText);
+						throw("Unable to refund credit card payment." & getUtils().newLine() & "Server Reponse: " & refundResponse.message.responseText);
 					}
 
 					var ECSTransaction = ECSTransactionService.get(refundResponse.message.ECSTransactionID);
@@ -198,7 +198,7 @@ component
 
 				// error check
 				if (validateResponse.message.response != 1) {
-					throw("Unable to post credit card payment." & getUtils().newLine() & "Error Code: " & validateResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & validateResponse.message.responseText);
+					throw("Unable to post credit card payment." & getUtils().newLine() & "Server Reponse: " & validateResponse.message.responseText);
 				} else {
 					arguments.ECSTransaction = ECSTransactionService.get(validateResponse.message.ECSTransactionID);
 					arguments.ECSTransaction.setUserID(5);
@@ -229,19 +229,20 @@ component
 					var saleResponse = deserializeJSON(prefix.fileContent);
 
 					if (saleResponse.message.response != 1) {
-						throw("Unable to post credit card payment." & getUtils().newLine() & "Error Code: " & saleResponse.message.responseText.response_code & getUtils().newLine() & "Server Reponse: " & saleResponse.message.responseText);
+						throw("Unable to post credit card payment." & getUtils().newLine() & "Server Reponse: " & saleResponse.message.responseText);
 					}
 
 					arguments.ECSTransaction = ECSTransactionService.get(saleResponse.message.ECSTransactionID);
 
 					arguments.payment.setCheckNum(Right(arguments.paymentInfo.getCCNumber(),4) & " / " & saleResponse.message.authCode);
 					arguments.payment.setNote("CreditCard");
-					arguments.payment.setVoidPaymentID(1);
 				}
 				arguments.policy.addPayment(arguments.payment);
 			} else {
 				arguments.policy.addPayment(arguments.payment);
 			}
+
+			arguments.payment.setVoidPaymentID(1);
 
 			save(entity=arguments.payment, flush=true);
 			refresh(arguments.payment);
@@ -323,6 +324,8 @@ component
 
 				arguments.policy.setCheckReinstatement(1);
 				save(entity=arguments.policy, flush=true);
+
+				//process_LateeFee(arguments.policy, arguments.payment);
 				processReinstatement(arguments.policy);
 				refresh(arguments.policy);
 			}
@@ -435,6 +438,18 @@ component
 		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
 		procService.execute();
 	}
+	private void function process_LateeFee(required model.policy.Policy policy, required component payment) {
+		var procService = new storedproc();
+
+		procService.setProcedure("Process_LateFee");
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=arguments.policy.getPolicyID());
+		procService.addParam(cfsqltype="cf_sql_date", type="in", value=arguments.payment.getPostMarkedDate());
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=1);
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=1);
+		procService.addParam(cfsqltype="cf_sql_integer", type="in", value=0);
+		procService.execute();
+	}
+
 	private void function processAdditionalFees(required component policy, required component payment, numeric processFee = 0, numeric debug=0) {
 		var queryObject = new storedproc();
 
