@@ -215,7 +215,7 @@ component
 					 WHERE policyID = Policy.policyID
 						 AND remoteSig = 1
 						 AND isSigned > 0
-						 AND CAST(GetDate() AS DATE) <= DateAdd(day, (SELECT daysAllowedForRemoteEsign FROM Windhaven_Config.dbo.PolicyTypes WHERE policyType = Policy.policyType), Policy.effectiveDate))
+						 AND CAST(GetDate() AS DATE) <= DateAdd(day, (SELECT daysAllowedForRemoteEsign FROM Windhaven_Config.dbo.PolicyTypes WHERE policyType = Policy.policyType), CAST(Policy.effectiveDate AS DATE)))
 		");
 
 		return (qs.execute().getResult().recordCount == 1) ? true : false;
