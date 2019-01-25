@@ -34,7 +34,7 @@ component
 	property name="noTrans" ormtype="short" default="0";
 	property name="paymentMethod" default="0" generated="never" insert="false" update="false" persistent="false";
 	property name="confirmationNum" type="string" persistent="false" default="" setter="false";
-	property name="voidPaymentID" ormtype="int" default="1" insert="false" update="false";
+	property name="voidPaymentID" ormtype="int" default="1";
 
 	// relations
 	property name="policy" fieldtype="many-to-one" fkcolumn="policyID" cfc="model.policy.Policy" lazy="true" inverse="true";
@@ -42,7 +42,7 @@ component
 	property name="producer" fieldtype="many-to-one" fkcolumn="producerID" cfc="model.producer.Producer" lazy="true" inverse="true";
 	property name="company" fieldtype="many-to-one" fkcolumn="companyID" cfc="model.company.Company" lazy="true" inverse="true";
 	property name="user" fieldtype="many-to-one" fkcolumn="usersID" cfc="model.user.User" lazy="true" inverse="true";
-	property name="voidPayment" fieldtype="many-to-one" fkcolumn="voidPaymentID" joincolumn="paymentID" cfc="model.payment.Payment" lazy="true" inverse="true" missingrowignored="true";
+	//property name="voidPayment" fieldtype="many-to-one" fkcolumn="voidPaymentID" joincolumn="paymentID" cfc="model.payment.Payment" lazy="true" inverse="true" missingrowignored="true";
 	property name="trans" fieldtype="one-to-many" fkcolumn="paymentID" cfc="model.trans.Trans" singularname="tran" lazy="extra";
 	//property name="IVRPayment" fieldtype="one-to-many" fkcolumn="paymentID" cfc="model.IVRPayment.IVRPayment";
 
