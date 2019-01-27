@@ -203,19 +203,22 @@ component
 	public boolean function hasEsignedBindingDocs()
 		output="false"
 	{
+		if (getIsRenewal() != 0) {
+			return false;
+		}
+
+		/* Make sure this query has spaces at the beginning of each line in setSQL.  Otherwise, CF will mash it up and create a CFE. */
 		var qs = new Query();
 		qs.addParam(name="policyID", value=getPolicyID(), cfsqltype="cf_sql_integer");
+		qs.addParam(name="policyType", value=getPolicyType(), cfsqltype="cf_sql_tinyint");
+		qs.addParam(name="effectiveDate", value=getEffectiveDate(), cfsqltype="cf_sql_date");
 		qs.setSQL("
-			 SELECT 1
-			 FROM Policy
+			 SELECT isSigned
+			 FROM EsigSessionLog WITH (NOLOCK)
 			 WHERE policyID = :policyID
-				 AND isRenewal = 0
-				 AND EXISTS(SELECT 1
-					 FROM EsigSessionLog WITH (NOLOCK)
-					 WHERE policyID = Policy.policyID
-						 AND remoteSig = 1
-						 AND isSigned > 0
-						 AND CAST(GetDate() AS DATE) <= DateAdd(day, (SELECT daysAllowedForRemoteEsign FROM Windhaven_Config.dbo.PolicyTypes WHERE policyType = Policy.policyType), CAST(Policy.effectiveDate AS DATE)))
+				 AND remoteSig = 1
+				 AND isSigned > 0
+				 AND CAST(GetDate() AS DATE) <= DateAdd(day, (SELECT daysAllowedForRemoteEsign FROM Windhaven_Config.dbo.PolicyTypes WHERE policyType = :policyType), CAST(:effectiveDate AS DATE))
 		");
 
 		return (qs.execute().getResult().recordCount == 1) ? true : false;
