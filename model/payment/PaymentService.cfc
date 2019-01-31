@@ -252,6 +252,9 @@ component
 					arguments.paymentInfo.setCCExpDate('');
 				}
 
+				// Ensure that full CC numbers are not written to DB
+				arguments.paymentInfo.setCCNumber(Right(arguments.paymentInfo.getCCNumber(), 4));
+
 				save(entity=arguments.paymentInfo, flush=true);
 				postPaymentInfo(arguments.payment, arguments.paymentInfo);
 			}
