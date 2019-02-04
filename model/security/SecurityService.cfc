@@ -35,11 +35,13 @@ component
 		if (arguments.controller.getSetting("requiresSSL", false, true) &&
 			!cgi.server_port_secure)
 		{
+			WriteLog("UserValidator fn: SSL issue (from=#remoteAddress#)", "error", true, "RemotePayError");
 			return false;
 		}
 
 		// check for existance of secretKey in header
 		if (!structKeyExists(httpRequest.headers, "secretKey")) {
+			WriteLog("UserValidator fn: secret key not provided (from=#remoteAddress#)", "error", true, "RemotePayError");
 			return false;
 		}
 
@@ -54,11 +56,13 @@ component
 
 		// check for existance api usage registration
 		if (apiUser.recordCount != 1) {
+			WriteLog("UserValidator fn: matching api user not found (from=#remoteAddress#)", "error", true, "RemotePayError");
 			return false;
 		}
 
 		// check for secretKey value
 		if (hash(apiUser.salt & secretKey, "SHA-512") != apiUser.secretKey) {
+			WriteLog("UserValidator fn: api hash mismatch (from=#remoteAddress#)", "error", true, "RemotePayError");
 			return false;
 		}
 
