@@ -23,6 +23,8 @@ component {
 			args.prc.data.error = true;
 			args.prc.data.message = e.message & " " & e.detail;
 			args.prc.data.detail = e;
+
+			writeLog(type="information", application="yes", file="APIPostDetails", text=SerializeJSON(e));
 		}
 
 		switch (event.getValue("format", "html")) {
