@@ -318,6 +318,11 @@ Optional Methods
 		settings.requiresSSL = false;
 	}
 
+	function uat() {
+		settings.appUrl = "http://windhaven.uat.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+
 	function claims() {
 		settings.appUrl = "http://windhaven.claims.ptsapp.com";
 		settings.requiresSSL = false;
