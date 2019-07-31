@@ -111,6 +111,7 @@ Optional Methods
 			er = "\.er\.",
 			claims = "\.claims\.",
 			cycle = "\.cycle\.",
+			ercycle = "\.ercycle\.",
 			staging = "\.staging",
 			stagingalt = "\.staging\."
 		};
@@ -305,6 +306,11 @@ Optional Methods
 
 	function cycle() {
 		settings.appUrl = "http://windhaven.cycle.ptsapp.com";
+		settings.requiresSSL = false;
+	}
+	
+	function ercycle() {
+		settings.appUrl = "http://windhaven.ercycle.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
