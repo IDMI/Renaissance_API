@@ -7,7 +7,7 @@ model/AutoDriverFactor.cfc
 component
 	persistent="true"
 	table="AutoDriverFactor"
-	datasource="windhavenRate"
+	datasource="RenaissanceRate"
 	output="false"
 {
 	// primary key

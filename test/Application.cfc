@@ -23,7 +23,7 @@ Description :
 	<cfscript>
        	// ORM Settings
        	this.ormEnabled = true;
-       	this.datasource = "windhaven";
+       	this.datasource = "Renaissance";
        	this.ormSettings = {
 	       	cfclocation = "/model",
 	       	dbcreate = "none",

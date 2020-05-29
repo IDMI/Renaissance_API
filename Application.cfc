@@ -25,7 +25,7 @@ Description :
 
        	// ORM Settings
        	this.ormEnabled = true;
-       	this.datasource = "windhaven";
+       	this.datasource = "renaissance";
        	this.ormSettings = {
 	       	cfclocation = "model",
 	       	dbcreate = "none",

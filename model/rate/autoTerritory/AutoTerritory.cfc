@@ -7,7 +7,7 @@ model/AutoTerritory.cfc
 component
 	persistent="true"
 	table="AutoTerritory"
-	datasource="windhavenRate"
+	datasource="RenaissanceRate"
 	output="false"
 {
 	// primary key

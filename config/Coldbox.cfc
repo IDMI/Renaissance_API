@@ -47,7 +47,7 @@ Optional Methods
 		// coldbox directives
 		coldbox = {
 			//Application Setup
-			appName = "windhaven API",
+			appName = "renaissance API",
 			eventName = "event",
 
 			//Development Settings
@@ -92,7 +92,7 @@ Optional Methods
 		// custom settings
 		settings = {
 			appMappingWithDots = appMappingWithDots,
-			appUrl = "https://windhaven.live.ptsapp.com",
+			appUrl = "https://renaissance.live.ptsapp.com",
 			defaultFormat = "json",
 			requiresSSL = false,
 			rootDrive = "D:",
@@ -279,7 +279,7 @@ Optional Methods
 		debugger.expandedRCPanel = false;
 		debugger.expandedModulesPanel = false;
 
-		settings.appUrl = "http://windhaven.local";
+		settings.appUrl = "http://renaissance.local";
 		settings.requiresSSL = false;
 		settings.rootDrive = "C:";
 		settings.attachmentDir = "C:\pts\attachment\";
@@ -295,42 +295,42 @@ Optional Methods
 	}
 
 	function development() {
-		settings.appUrl = "http://windhaven.dev.ptsapp.com";
+		settings.appUrl = "http://renaissance.dev.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function qa() {
-		settings.appUrl = "http://windhaven.qa.ptsapp.com";
+		settings.appUrl = "http://renaissance.qa.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function cycle() {
-		settings.appUrl = "http://windhaven.cycle.ptsapp.com";
+		settings.appUrl = "http://renaissance.cycle.ptsapp.com";
 		settings.requiresSSL = false;
 	}
-	
+
 	function ercycle() {
-		settings.appUrl = "http://windhaven.ercycle.ptsapp.com";
+		settings.appUrl = "http://renaissance.ercycle.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function er() {
-		settings.appUrl = "http://windhaven.er.ptsapp.com";
+		settings.appUrl = "http://renaissance.er.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function staging() {
-		settings.appUrl = "http://windhaven.staging.ptsapp.com";
+		settings.appUrl = "http://renaissance.staging.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function uat() {
-		settings.appUrl = "http://windhaven.uat.ptsapp.com";
+		settings.appUrl = "http://renaissance.uat.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
 	function claims() {
-		settings.appUrl = "http://windhaven.claims.ptsapp.com";
+		settings.appUrl = "http://renaissance.claims.ptsapp.com";
 		settings.requiresSSL = false;
 	}
 
