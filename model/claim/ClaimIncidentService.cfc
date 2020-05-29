@@ -34,7 +34,7 @@ component extends="coldbox.system.orm.hibernate.VirtualEntityService" singleton 
 		save(claimIncident, forceInsert, flush, transactional);
 
 		if (claimIncident.getNum() == "TBD") {
-			claimIncident.setNum(setClaimNumber(claimIncident));
+			claimIncident.setNum(getClaimNumber(claimIncident));
 			save(claimIncident, forceInsert, flush, transactional);
 		}
 	}
@@ -58,7 +58,25 @@ component extends="coldbox.system.orm.hibernate.VirtualEntityService" singleton 
 
 		return newNum;
 	}
+	private string function getClaimNumber(required claimIncident) {
+		var storedproc = new storedproc();
+		var newNum = "";
 
+		storedproc.setProcedure("GetClaimNumber");
+		storedproc.addParam(cfsqltype="cf_sql_integer", type="in", value="#claimIncident.getID()#");
+		storedproc.addParam(cfsqltype="cf_sql_integer", type="in", value="#claimIncident.getPolicy().getPolicyID()#");
+		storedproc.addParam(cfsqltype="cf_sql_varchar", type="out", variable="claimIncidentNum");
+		storedproc.addParam(cfsqltype="cf_sql_integer", type="in", value="0");
+		var result = storedproc.execute();
+
+		newNum = result.getprocOutVariables().claimIncidentNum;
+
+		if (!Len(newNum)) {
+			throw("Unable to generate a new Claim Number");
+		}
+
+		return newNum;
+	}
 	public struct function getConstraints() {
 		return {
 			"status" = {

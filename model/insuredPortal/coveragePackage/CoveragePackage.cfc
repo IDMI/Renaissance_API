@@ -7,7 +7,7 @@ model/CoveragePackage.cfc
 component
 	persistent="true"
 	table="CoveragePackage"
-	datasource="windhavenInsuredPortal"
+	datasource="RenaissanceInsuredPortal"
 	output="false"
 {
 	// primary key

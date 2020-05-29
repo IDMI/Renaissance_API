@@ -7,7 +7,7 @@ beans/AutoRateDetail.cfc
 component
 	persistent="true"
 	table="AutoRateDetail"
-	datasource="windhavenRate"
+	datasource="RenaissanceRate"
 	output="false"
 {
 	// primary key

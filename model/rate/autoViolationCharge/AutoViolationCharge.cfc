@@ -7,7 +7,7 @@ model/AutoViolationCharge.cfc
 component
 	persistent="true"
 	table="AutoViolationCharge"
-	datasource="windhavenRate"
+	datasource="RenaissanceRate"
 	output="false"
 {
 	// primary key

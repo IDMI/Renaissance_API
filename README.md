@@ -1,9 +1,9 @@
-# windhaven_API
+# Renaissance_API
 
 To set up the API site:
 
 1. Follow the normal documentation to create the local site (https://www.ourvolaris.com/sites/Silvervine/DEV/Technical%20Documentation/How%20to%20Create%20a%20Local.aspx).
-2. Name it windhaven.api.local in IIS/hosts file for consistency among workstations and compatibility with what is set by default in the Windhaven_Insured repo.
+2. Name it renaissance.api.local in IIS/hosts file for consistency among workstations and compatibility with what is set by default in the Renaissance_Insured repo.
 3. There are no local settings for it.
 
 
@@ -11,7 +11,7 @@ To set up the API site:
 To test that it's working:
 1. Make an insured web account locally in the PTS with your email.
 2. Log into your local insured web site.
-	* If at any point you need to adjust your local settings in the insured web, make sure you run http://windhaven.insured.local?init=8899 to reinitialize the application scope variables.
+	* If at any point you need to adjust your local settings in the insured web, make sure you run http://renaissance.insured.local?init=8899 to reinitialize the application scope variables.
 	* Be mindful of the "application.api" in local settings for your local API url.  Sample insured web local settings:
 ```
 <cfscript>
@@ -22,7 +22,7 @@ To test that it's working:
 	application.ptsUrl = "http://#application.PTSname#.local";
 	// API
 	application.api = {
-		"url" = "http://windhaven.api.local/index.cfm",
+		"url" = "http://renaissance.api.local/index.cfm",
 		"secretKey" = "G^02z0C"
 	};
 	application.remoteWSDL = "#application.ptsURL#/service/external/insured/Remote.cfc?wsdl";
@@ -72,5 +72,5 @@ VISA 4111111111111111 Exp: 10/25 CVV2: 123
 		*/
 	};
   ```
-  
+
 	5. Then try to make another payment in the insured web.  If you can make a credit card payment through your local insured web connected to your local PTS and local API, it means everything is working as it should.

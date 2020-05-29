@@ -8,8 +8,8 @@ component
 			title = "PTS API",
 			description = "",
 			entryPoint = {
-				dev="http://windhaven.dev.ptsapi.com",
-				production="https://windhaven.live.ptsapi.com"
+				dev="http://renaissance.dev.ptsapi.com",
+				production="https://renaissance.live.ptsapi.com"
 			},
 			extensionDetection = true,
 			validExtensions = "xml,json",

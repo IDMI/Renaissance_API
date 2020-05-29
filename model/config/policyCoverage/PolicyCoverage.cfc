@@ -7,7 +7,7 @@ model/PolicyCoverage.cfc
 component
 	persistent="true"
 	table="PolicyCoverages"
-	datasource="windhavenConfig"
+	datasource="RenaissanceConfig"
 	output="false"
 {
 	// primary key

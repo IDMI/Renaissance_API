@@ -7,7 +7,7 @@ model/Underwriting.cfc
 component
 	persistent="true"
 	table="Underwriting"
-	datasource="windhavenRate"
+	datasource="RenaissanceRate"
 	output="false"
 {
 	// primary key

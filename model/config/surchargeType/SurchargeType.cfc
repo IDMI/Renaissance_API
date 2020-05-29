@@ -7,7 +7,7 @@ model/SurchargeType.cfc
 component
 	persistent="true"
 	table="SurchargeTypes"
-	datasource="windhavenConfig"
+	datasource="RenaissanceConfig"
 	output="false"
 {
 	// primary key

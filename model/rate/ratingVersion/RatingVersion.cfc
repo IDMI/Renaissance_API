@@ -7,7 +7,7 @@ model/RatingVersion.cfc
 component
 	persistent="true"
 	table="RatingVersion"
-	datasource="windhavenRate"
+	datasource="RenaissanceRate"
 	output="false"
 {
 	// primary key

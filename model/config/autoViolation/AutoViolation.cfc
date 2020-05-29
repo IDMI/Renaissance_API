@@ -7,7 +7,7 @@ model/AutoViolation.cfc
 component
 	persistent="true"
 	table="AutoViolation"
-	datasource="windhavenConfig"
+	datasource="RenaissanceConfig"
 	output="false"
 {
 	// Primary Key

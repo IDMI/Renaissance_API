@@ -7,7 +7,7 @@ model/DiscountType.cfc
 component
 	persistent="true"
 	table="DiscountTypes"
-	datasource="windhavenConfig"
+	datasource="RenaissanceConfig"
 	output="false"
 {
 	// primary key
